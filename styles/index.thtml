@@ -1,1 +1,2 @@
 export * from "config.thtml"
+export {app} from "app.thtml"

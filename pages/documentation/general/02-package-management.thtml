@@ -23,14 +23,14 @@ articlepage(1)
       cl(2) '"std": {'
       cl(3) '"minVersion": "0.0.0",'
       cl(3) '"maxVersion": "2.0.0",'
-      cl(3) '"url": "github.com/computeportal/wtlib"'
+      cl(3) '"url": "github.com/wtsuite/wtlib"'
       cl(2) '}'
       cl(1) '}'
       cl '}'
     br
     p "Package modules can then be imported by using " code em "pkg-name" < "/" em "module-name" < < " (the module name can contain slashes):"
     cblock
-      cl ck 'import' < ' * ' ck 'as' < ' basic ' ck 'from' < ' ' cv '"std/templates/basic"'
+      cl ck 'import' < ' * ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
     br
     p "You must use the " em a(href="#wt-pkg-sync") "wt-pkg-sync" < < " command before using new packages."
 

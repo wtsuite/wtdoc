@@ -73,7 +73,7 @@ articlepage(2)
     br
     p code "wt-crawl" < " looks for link tags with a (clean) href attribute. All found files are downloaded into a directory recursively. This directory again represents the root of the website (or at least the part you want to index)."
     cblock
-      cl "> wt-crawl https://computeportal.github.io/wtsuite-doc -o ./wtsuite-doc_www -j 8"
+      cl "> wt-crawl https://www.wtsuite.com -o ./wtdoc-www -j 8"
     br
     p "The " code "-j" < " option lets you parallelize the download and parsing process."
     br
@@ -94,7 +94,7 @@ articlepage(2)
       cl(2) '"std": {'
       cl(3) '"minVersion": "0.0.0",'
       cl(3) '"maxVersion": "2.0.0",'
-      cl(3) '"url": "github.com/computeportal/wtlib"'
+      cl(3) '"url": "github.com/wtsuite/wtlib"'
       cl(2) "}"
       cl(1) "}"
       cl(1) "..."

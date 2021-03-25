@@ -1,0 +1,47 @@
+import * as layout from "std/layout"
+import * from "config.thtml"
+import {main} from "main.thtml"
+
+
+export style app 
+  $main;
+  body {
+    nav {
+      max-width: unset;
+      min-width: unset;
+      $layout.flex(hsc);
+
+      h1 {
+        line-height: 4rem;
+        font-weight: normal;
+      }
+
+      #app-links {
+        height: 4rem;
+        $layout.flex(hsc);
+
+        a {
+          cursor: pointer;
+
+          [active] {
+            font-weight: bold;
+            color: $darkText;
+
+            :hover {
+              color: $darkText;
+            }
+          }
+        }
+      }
+    }
+
+    footer {
+      max-width: unset;
+      min-width: unset;
+
+      #nav-logo {
+        line-height: 1.1rem;
+        font-size: 1.1rem;
+      }
+    }
+  }

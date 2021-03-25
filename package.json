@@ -3,7 +3,7 @@
     "std": {
       "minVersion": "0.0.0",
       "maxVersion": "2.0.0",
-      "url": "github.com/computeportal/wtlib"
+      "url": "github.com/wtsuite/wtlib"
     }
   },
   "templateModules": {

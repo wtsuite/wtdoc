@@ -27,9 +27,9 @@ docpage("Packages")
 
   section
     h2(id=std) "std"
-    p code "github.com/computeportal/wtlib"
+    p code "github.com/wtsuite/wtlib"
     br
-    p "This package is still very experimental. Ideas and contributions are welcome."
+    p "This package is still very experimental. Ideas and contributions are very welcome."
     br
 
     packagetable
@@ -41,4 +41,6 @@ docpage("Packages")
         stdrow("icons", "html, css", "Material design icons")
         stdrow("layout", "css", "Flexbox and grid utilties")
         stdrow("linalg", "js", "Common vector and tensor types, and many other algebra related primitives")
-        stdrow("ux", "html, js", "Widgets (carousel, etc.)")
+        stdrow("search", "js", "SearchIndex and PageScore for client-side search")
+        stdrow("stats", "js", "Beacon basic site usage statistics to an analytics service (eg. wtsuite's ssgaas stats api)")
+        stdrow("ux", "html, js", "Widgets (carousel, list, loading, etc.)")

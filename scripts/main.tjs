@@ -1,3 +1,6 @@
+import "std/stats";
+
+
 function registerHamburgerMenu() {
   let c=document.getElementById('nav-links');
   let b=document.getElementById('hamburger-menu-button');

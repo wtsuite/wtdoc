@@ -21,12 +21,13 @@ export var main = {
     "/favicon.png": "./art/favicon.png",
     //"/search-index-mdn-html.json": "./scripts/search-index-mdn-html.json",
     "/search-index-mdn-javascript.json": "./scripts/search-index-mdn-javascript.json",
+    "/SearchExample.tjs": "./scripts/SearchExample.tjs",
   },
   scripts: {
-    "./scripts/hamburgerMenu.tjs": keys($pages),
+    "./scripts/main.tjs": keys($pages),
     "./scripts/articleMenu.tjs": filter(keys($pages), function(f){matches($f, "^documentation/[a-z]+/.*")}),
     "./scripts/SearchExample.tjs": "documentation/general/03-client-side-search.html",
-    "./scripts/Mandelbrot.tjs": "documentation/webgl/03-mandelbrot-example.html",
+    "./scripts/mandelbrot/Mandelbrot.tjs": "documentation/webgl/03-mandelbrot-example.html",
   },
   styles: {
     "./styles/main.thtml": keys($pages),

@@ -125,7 +125,7 @@ articlepage(2)
     h2 "Javascript code"
     p "The shaders can be imported directly into javascript with the " code "WebGLProgram" < " " a(href=url("02-program-macro.thtml")) "macro" < "."
     br
-    p "If you are interested in the full source of this example you can have a look in the " a(href="https://github.com/computeportal/wtsuite-doc/tree/main/documentation/webgl") "github repository" < "."
+    p "If you are interested in the full source of this example you can have a look in the " a(href="https://github.com/wtsuite/wtdoc/tree/main/scripts/mandelbrot") "github repository" < "."
     br
     p "We are still working in high-level library functions to make webgl easier to use."
 
