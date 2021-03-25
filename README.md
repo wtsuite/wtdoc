@@ -11,7 +11,7 @@ In order to view the documentation locally:
 $ git clone https://github.com/wtsuite/wtdoc
 $ cd ./wtdoc
 $ mkdir /tmp/wtdoc-www
-$ wt-site ./site-config.thtml /tmp/wtdoc-www
+$ wt-site -i ./site-config.thtml -o /tmp/wtdoc-www
 $ wt-serve /tmp/wtdoc-www
 ```
 
