@@ -1,0 +1,36 @@
+function findPages() {
+  dict(map(filter(ls("./pages"), function(f) {
+    not(any([
+      ext($f) != ".thtml",
+      matches($f, "documentation/[a-z]+/index.thtml$"),
+      matches($f, "packages/[a-z]+/index.thtml$"),
+    ]))
+  }), 
+  function(f) {
+    src := $f;
+    dst := noext(rel($f, "./pages")) + ".html";
+    [$dst, $src];
+  }))
+}
+
+var pages = findPages()
+
+export var main = {
+  pages: $pages,
+  files: {
+    "/favicon.png": "./art/favicon.png",
+    //"/search-index-mdn-html.json": "./scripts/search-index-mdn-html.json",
+    "/search-index-mdn-javascript.json": "./scripts/search-index-mdn-javascript.json",
+  },
+  scripts: {
+    "./scripts/hamburgerMenu.tjs": keys($pages),
+    "./scripts/articleMenu.tjs": filter(keys($pages), function(f){matches($f, "^documentation/[a-z]+/.*")}),
+    "./scripts/SearchExample.tjs": "documentation/general/03-client-side-search.html",
+    "./scripts/Mandelbrot.tjs": "documentation/webgl/03-mandelbrot-example.html",
+  },
+  styles: {
+    "./styles/main.thtml": keys($pages),
+    "./styles/landing.thtml": "index.html",
+    "./styles/documentation-overview.thtml": "documentation/index.html",
+  }
+}

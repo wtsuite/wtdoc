@@ -1,0 +1,1 @@
+export template favicon extends link super(rel="icon", href="/favicon.png", type="image/png", sizes="32x32")

@@ -1,0 +1,51 @@
+import {page} from "page.thtml"
+
+
+template prevnext(prev, next, id) extends div super(class=prev-next, id=$id)
+  if ($prev != null) 
+    p(class="prev") "Prev&nbsp " 
+      a(href=url($prev[0])) $prev[1]
+
+  if ($next != null) 
+    p(class="next") "Next&nbsp " 
+      a(href=url($next[0])) $next[1]
+
+
+export template docpage(
+  title=null, 
+  description=null,
+  breadcrumb=null, 
+  prev=null, 
+  next=null, 
+  mobile=true,
+  tocScheme="decimal",
+) extends page super(
+  title=$title, 
+  description=$description,
+  mobile=$mobile,
+)
+  header
+    if $breadcrumb != null
+      div(id=breadcrumb)
+        var n = len($breadcrumb)
+        for i, v in items($breadcrumb)
+          a(href=v[0]) $v[1]
+
+          //if ($i < $n - 1)
+          p "/"
+
+    prevnext($prev, $next, prev-next-top)
+
+    block before-title
+
+    if $title != null
+      h1 $title
+
+  article
+    section(id=introduction)
+      block intro
+
+    block default
+
+  if ($prev != null) || ($next != null)
+    prevnext($prev, $next, prev-next-bottom)

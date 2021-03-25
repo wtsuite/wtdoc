@@ -1,0 +1,19 @@
+import {page} from "page.thtml"
+import {nav} from "nav.thtml"
+import {header} from "header.thtml"
+import {text} from "text.thtml"
+import {list} from "list.thtml"
+import {table} from "table.thtml"
+import {syntax} from "syntax.thtml"
+import {footer} from "footer.thtml"
+
+
+export style main 
+  $page;
+  $nav; 
+  $header; 
+  $text;
+  $list;
+  $table;
+  $syntax; 
+  $footer; 

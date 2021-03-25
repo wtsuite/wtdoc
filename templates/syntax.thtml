@@ -1,0 +1,21 @@
+export template cblock extends code super(class=cblock)
+  div
+    block default
+
+
+export template cl(indent=0) extends dummy super()
+  span(class=cl)
+    for i in seq($indent)
+      span(class=indent)
+
+    block default
+
+  br
+    
+
+export class cc of span
+export class ck of span 
+export class cm of span
+export class cs of span
+export class ct of span
+export class cv of span

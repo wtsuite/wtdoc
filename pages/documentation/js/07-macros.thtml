@@ -1,0 +1,62 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(6)
+  append intro
+    p "The " em "wtsuite" < " script compiler provides some macros through function-like calls."
+
+  section 
+    h2 "cast"
+    p "The " code "cast" < " macro allows you to cast the type of an expression into any other type:"
+    cblock
+      cl ck 'var' < ' x ' ct 'Array' < '&lt;' ct 'String' < '&gt; = [' cv '"a"' < '];'
+      cl 'x = ' ck 'cast' < '([' cv '10.0' < '], ' ct 'Array' < '&lt;' ct 'String' < '&gt;); ' cc '// ok during compilation, maybe nok during runtime!'
+    br
+    p "This can be useful to circumvent the type checking where it becomes a nuisance."
+    br
+    p "The second argument of " code "cast" < " must be a type. It can't be a variable or expression resolving to a type."
+
+  section 
+    h2 "Object.isUndefined"
+    p "The " code "undefined" < " literal value doesn't exist in " em "wtsuite" < "'s typed javascript, but you can check if an expression is " code "undefined" < " with this macro:" 
+    cblock
+      cl ck "var" < " obj = {};"
+      cl 'console.log(' ct 'Object' < '.isUndefined(obj[' cv '"key"' < '])); ' cc '// true'
+    br
+    p "It tries to return literal booleans where possible, which in turn allows avoiding evaluation of if-else branches."
+
+  section
+    h2 "Object.fromInstance"
+    p code "Object.fromInstance()" < " can be used to serialize an instance in combination with " code "JSON.stringify()" < ":"
+
+    cblock
+      cl ck 'var' < ' obj ' ct 'Object' < ' = ' ct 'Object' < '.fromInstance(' ck 'new' < ' Vec2(' cv '0.0' < ',  ' cv '1.0' < ')));'
+      cl ck 'var' < ' message ' ct 'String' < ' = JSON.stringify(obj); ' cc '// can be sent to a server, which calls the corresponding JSON.parse(Object.toInstance(message, Vec2))'
+    br
+    p "Internally the created object contains additional type information as plain-text values, so the instance can be reconstructed elsewhere."
+    br
+    p "Note that the class property names must still be the same when reconstructing the instance!"
+
+  section
+    h2 "Object.toInstance"
+    p code "Object.toInstance()" < " can be used to deserialize a string in combination with " code "JSON.parse()" < ":"
+
+    cblock
+      cl ck 'var' < ' obj ' ct 'Object' < ' = JSON.parse(message); ' cc '// eg. received from client'
+      cl ck 'var' < ' x Vec2 = ' ct 'Object' < '.toInstance(obj, Vec2);' 
+
+    br
+    p "The second argument of " code "Object.toInstance" < " must be a type. It can't be a variable or expression resolving to a type."
+
+  section
+    h2 "Blob.fromInstance"
+    p code "Blob.fromInstance()" < " is the binary equivalent of " code "Object.fromInstance()" < "."
+    br
+    p "It returns a blob, that essentially wraps a " code "Uint8Array" < ". This binary structure has a JSON header, and the body is a concatentation of all typed arrays found in the original instance."
+    br
+    p "This is more efficient than " code "Object.fromInstance()" < " if the instance contains a large amount of data in typed arrays, because it doesn't require base64 encoding/decoding, and doesn't require compression/decompression."
+
+  section
+    h2 "Blob.toInstance"
+    p code "Blob.toInstance()" < " is the binary equivalent of " code "Object.toInstance()" < ", and the deserializing counterpart of " code "Blob.fromInstance()" < "."

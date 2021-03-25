@@ -1,0 +1,89 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(4)
+  append intro
+    p "Enums are collections of predefined constants. Like java, enums in wtsuite&apos;s typed javascript are syntactic sugar for classes with some automatically generated static members."
+
+  section 
+    h2 "Simple example"
+    p "Enums are defined as follows:"
+    cblock
+      cl ck 'enum' < ' ErrorCode { ' cc '// implicitely extends Int'
+      cl(1) 'NO_ERROR, ' cc '// 0'
+      cl(1) 'SYNTAX_ERROR, ' cc '// 1'
+      cl(1) 'GENERIC_ERROR ' cc '// 2'
+      cl '}'
+    br
+    p "Enums are class-like types, and can be used as follows:"
+    cblock
+      cl ck 'function' < ' printErrorMessage(code ErrorCode) {'
+      cl(1) 'console.log(ErrorCode.key(code)); ' cc "// prints 'NO_ERROR', 'SYNTAX_ERROR' or 'GENERIC_ERROR'"
+      cl '}'
+      cl
+      cl 'printErrorMessage(ErrorCode.GENERIC_ERROR);'
+    br
+    p "Instances of enums can still be used as instances of their parent types:"
+    cblock
+      cl ck 'function ' < ' addInts(a ' ct 'Int' < ', b ' ct 'Int' < ') {'
+      cl(1) ck 'return' < ' a+b;'
+      cl '}'
+      cl
+      cl 'addInts(ErrorCode.NO_ERROR, ErrorCode.GENERIC_ERROR) == ErrorCode.GENERIC_ERROR; ' cc '// true'
+
+  section
+    h2 "Advanced example"
+    p "This example is similar to the example in " a(href="https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html") "Oracle's java documentation on enums" < ' (this way you can immediately see the difference between java and wtsuite&apos;s typed javascript):'
+
+    cblock
+      cl ck 'class' < ' Planet {'
+      cl(1) 'mass ' ct 'Number' < ';'
+      cl(1) 'radius ' ct 'Number' < ';'
+      cl
+      cl(1) 'constructor(m ' ct 'Number' < ', r ' ct 'Number' < ') {'
+      cl(2) ck 'this' < '.mass = m; ' cc '// in kg'
+      cl(2) ck 'this' < '.radius = r; ' cc '// in m'
+      cl(1) '}'
+      cl '}'
+      cl
+      cl ck 'enum' < ' SSPlanet ' ck 'extends' < ' Planet {'
+      cl(1) 'MERCURY = ' ck 'new' < ' Planet(' cv '3.303e+23' < ', ' cv '2.4397e6' < '),'
+      cl(1) 'VENUS&nbsp;&nbsp; = ' ck 'new' < ' Planet(' cv '4.869e+24' < ', ' cv '6.0518e6' < '),'
+      cl(1) 'EARTH&nbsp;&nbsp; = ' ck 'new' < ' Planet(' cv '5.976e+24' < ', ' cv '6.3781e6' < '),'
+      cl(1) 'MARS&nbsp;&nbsp;&nbsp; = ' ck 'new' < ' Planet(' cv '6.421e+23' < ', ' cv '3.3972e6' < '),'
+      cl(1) 'JUPITER = ' ck 'new' < ' Planet(' cv '1.900e+27' < ', ' cv '7.1492e7' < '),'
+      cl(1) 'SATURN&nbsp; = ' ck 'new' < ' Planet(' cv '5.688e+26' < ', ' cv '6.0268e7' < '),'
+      cl(1) 'URANUS&nbsp; = ' ck 'new' < ' Planet(' cv '8.686e+25' < ', ' cv '2.5559e7' < '),'
+      cl(1) 'NEPTUNE = ' ck 'new' < ' Planet(' cv '1.024e+26' < ', ' cv '2.4746e7' < ')'
+      cl '}'
+      
+  section
+    h2 "Details"
+    p "Enum members are separated by commas. Each enum member has a name and a value."
+    br
+    h3 "Implicit values"
+    p "The value is optional in some cases. If it is left out for each member, then the enum implicitely extends " code "Int" < ", and each member is assigned a unique integer value, starting at 0 and incremented by 1 for each following member."
+    br 
+    p "There is no auto-incrementing if some, but not all, values are specified."
+    br
+    p "If the first member value is a literal string which exactly matches the name of that member, then unspecified remaining values are implicit strings with the same value as the names of those other members."
+    br
+    p "All enum values must be specified in all other cases."
+    br
+    h3 "Implicit parent class"
+    p "If no parent class is specified, and if all values are implicit integers, or literal integers, then the enum implicitely extends " code "Int" < "."
+    br
+    p "The " code "String" < " class is similarly implicitely extended if all values are implicit or literal strings."
+    br
+    p "A parent class must be specified in all other cases."
+    br
+    h3 "Static member functions"
+    ul
+      li code "&lt;EnumType&gt;.values() Array&lt;EnumType&gt;" < ": returns array of enum members."
+      li code "&lt;EnumType&gt;.value(key String) EnumType" < ": returns enum member which has same name as " code "key" < ". Returns " code "null" < " if not found."
+      li code "&lt;EnumType&gt;.keys() Array&lt;String&gt;" < ": returns array of enum members names."
+      li code "&lt;EnumType&gt;.key(x EnumType) String" < ": returns name of the enum value."
+
+    br
+    p "Enum members can't have the same name as one of these functions. Using capitalized names for enum members avoids any such naming conflicts."

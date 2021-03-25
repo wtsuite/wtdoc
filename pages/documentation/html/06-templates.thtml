@@ -1,0 +1,54 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(5)
+  append intro
+    p "Templates allow you to reuse groups of tags. You will typically use this for creating templates of pages."
+
+  section
+    h2 "Page example"
+    p "Any composition of tags can be reused by defining a template:"
+    cblock
+      cl cc "// file: page.thtml"
+      cl ck "export template" < " page(title) " ck "extends" < " html " ck "super" < "()"
+      cl(1) cs "head"
+      cl(2) cs "meta" < "(charset=utf-8)"
+      cl(2) cs "title"
+      cl(3) cm "$title"
+      cl(1) cs "body"
+      cl(2) ck "block" < " default "
+    br
+    p "The template can then be instantiated as follows:"
+    cblock
+      cl cc "// file: page-instance.thtml"
+      cl ck "import" < " {page} " ck "from" < ' ' cv '"./page.thtml"'
+      cl
+      cl cs 'page' < '(title=' cv '"web transpiler suite"' < ')'
+      cl(1) cs 'h1' < ' ' cv '"Welcome"'
+
+    br
+    p "Any child content of the new " code "page" < " tag is placed under the default " code "block" < ". If no default " code "block" < " is defined then the content is simply appended to the end."
+
+  section
+    h2 "Blocks"
+    p "To explicitely append to a named block, you can use the " code "append" < " statement:"
+    cblock
+      cl cs 'page' < '(title=' cv '"web transpiler suite"' < ')'
+      cl(1) ck "append" < " default"
+      cl(2) cs 'h1' < ' ' cv '"Welcome"'
+    br
+    p "You can also replace the content of a tag using the " code "replace" < " statement:"
+    cblock
+      cl cc "// file: page.thtml"
+      cl ck "export template" < " page " ck "extends" < " html " ck "super" < "()"
+      cl(1) cs "head"
+      cl(2) cs "meta" < "(charset=utf-8)"
+      cl(2) cs "title"
+      cl(3) ck "block" < " title"
+      cl(4) cv '"web transpiler suite"'
+      cl
+      cl cc "// file: page-instance.thtml"
+      cl cs 'page'
+      cl(1) ck "replace" < " title"
+      cl(2) cv '"Web Transpiler Suite!"'

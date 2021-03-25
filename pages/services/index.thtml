@@ -1,0 +1,9 @@
+import * from "templates"
+
+
+docpage("Services")
+  dt a(href="ssg.wtsuite.com") "SSGaaS"
+  dd "Static site generation as a service. Use wtsuite in the cloud to build static websites as part of your CD flow. Rebuilds are triggered by webhooks from your own repositories, as well as webhooks from upstream dependencies."
+
+  dt "Analytics"
+  dd "Privacy sensitive analytics, integrated into your SSGaaS websites."

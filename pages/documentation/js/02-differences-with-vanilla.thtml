@@ -1,0 +1,128 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(1)
+  append intro
+    p "This page tries to highlight the differences between " em "wtsuite" < "'s typed javascript and vanilla javascript. If you already know javascript, then it will be very easy to adapt to " em "wtsuite" < "'s javascript implementation."
+    br 
+    p "Note that " em "wtsuite" < "'s typed javascript implementation differs from " em "typescript" < "."
+
+  section
+    h2 "Semicolons"
+    p "There is no automatic semicolon insertion for line breaks, thus semicolons are not optional. And each statement must end with a semicolon."
+    br
+    p "Semicolons aren't though needed for statements that end with a closing brace: function statements, class statements, class members, enums and interfaces."
+
+  section
+    h2 "Typed variables"
+    p "Typed javascript allows you to annotate variables with optional type specifiers:"
+    cblock
+      cl ck 'var' < ' untypedMessage = ' cv '"Hello world"' < ';'
+      cl ck 'var' < ' typedMessage ' ct 'String' < ' = ' cv '"Hello world"' < ';'
+      cl
+      cl 'untypedMessage = ' cv '0.0' < '; ' cc '// ok'
+      cl 'typedMessage = ' cv '0.0' < '; ' cc '// error'
+    br
+    p "The type comes after the variable name. This is similar to other languages with optional typing."
+
+    br
+    p "Leaving out the type is actually syntactic sugar for " b "any" < ":"
+    cblock
+      cl ck 'var' < ' untypedMessage ' ck 'any' < ' = ' cv '"Hello world"' < ';'
+      cl 'untypedMessage = ' cv '0.0' < '; ' cc '// ok'
+
+    br
+    p "Except for " code "any" < ', ' code "void" < ", " code "function" < ", and " code "class" < ", types always start with an upper case letter. There are no special primitive lower case types (eg. there is no " code 'string' < ", only " code 'String' < ")."
+
+  section 
+    h2 "Auto let"
+    p "Instead of explicitely specifying the type of a variable, or leaving it untyped and not benifitting from the type checking, you can use an automatic let statement:" 
+    cblock
+      cl "x := " cv "0.0" < ";"
+    p "This transpiles into:"
+    cblock
+      cl "let x = 0.0;"
+    br
+    p "Further assignments must then be exactly the type of that initial right-hand side expression, or a subtype thereof. The following would give an error:"
+    cblock
+      cl "x = " cv "false" < "; " cc "// Error: expected Number, got Boolean"
+    br
+
+  section
+    h2 "Typed functions"
+    p "The following examples add two numbers:"
+    cblock
+      cl ck "function" < " untypedAdd(a, b) " ck "any" < " { " cc "// can also be used for string concatenation"
+      cl(1) ck "return" < " a+b;"
+      cl "}"
+      cl
+      cl ck "function" < " typedAdd(a " ct "Number" < ", b " ct "Number" < ") " ct "Number" < " { " cc "// only for numbers"
+      cl(1) ck "return" < " a+b;"
+      cl "}"
+    br
+    p "A function that returns a value must at least have the " code "any" < " specifier after the argument list. Leaving out the return type specifier is syntactic sugar for " code "void" < "."
+
+    br
+    p "When porting javascript code to " em "wtsuite" < " script code, function return type specifiers are the first things you need to add."
+
+  section 
+    h2 "Class properties"
+    p "Class instance properties need to be declared before any member function:"
+    cblock
+      cl ck "class" < " Vec2 {"
+      cl(1) cc "// forgetting these declarations will give an error in the constructor"
+      cl(1) "_x; " cc "// typing is optional though"
+      cl(1) "_y;"
+      cl
+      cl(1) ck "constructor" < "(x, y) {"
+      cl(2) ck "this" < "._x = x;"
+      cl(2) ck "this" < "._y = y;"
+      cl(1) "}"
+      cl "}"
+    br
+    p "When porting javascript code to " em "wtsuite" < " script code, class property declarations will thus be another thing you need to add."
+    br
+    p "The same example class, but fully typed:"
+    cblock
+      cl ck "class" < " Vec2 {"
+      cl(1) "_x " ct "Number" < ";"
+      cl(1) "_y " ct "Number" < ";"
+      cl
+      cl(1) ck "constructor" < "(x " ct "Number" < ", y " ct "Number" < ") {"
+      cl(2) ck "this" < "._x = x;"
+      cl(2) ck "this" < "._y = y;"
+      cl(1) "}"
+      cl "}"
+
+    br
+    p "Class properties that begin with an underscore are private, otherwise they are public."
+
+  section
+    h2 "Class member roles"
+    p "In addition to the vanilla " code 'get' < ", " code 'set' < " and " code 'static' < " member roles, " em "wtsuite" < " also provides the " code 'private' < " and " code 'abstract' < " roles." 
+    br
+    p "Class members are public by default, unless preceded by the " code 'private' < " keyword:"
+    cblock
+      cl ck "class" < " Vec2 {"
+      cl(1) "..."
+      cl
+      cl(1) ck "private" < " normalizeInplace() {"
+      cl(2) "l := Math.sqrt(" ck "this" < "._x*" ck "this" < "._x + " ck "this" < "._y*" ck "this" < "._y);"
+      cl(2) ck "this" < "._x /= l;"
+      cl(2) ck "this" < "._y /= l;"
+      cl(1) "}"
+
+    p "Private member functions can be accessed from within instances of that class, or instances of child classes (i.e. similar to protected in java)."
+
+    br
+    p "Abstract member functions can be used to allow child classes to implement specific behavior, as done in many object oriented languages. In most cases we recommend using interfaces instead, but abstract members can however be useful to add non-(de)serializeable properties to (de)serializable instances."
+    br
+    p "An example of an abstract member function:"
+    cblock
+      cl ck "class" < " AbstractVec2 { " cc "// abstract class, for non-euclidean spaces"
+      cl(1) "..."
+      cl
+      cl(1) ck "abstract" < " length() " ct "Number" < ";"
+    br
+    p "Classes containing abstract member functions, or child classes with unimplemented parent abstract members, cannot be instantiated."

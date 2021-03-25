@@ -1,0 +1,83 @@
+import * as icons from "std/icons"
+import * as layout from "std/layout"
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+template icondiv(name) extends div super()
+  icons.factory($name, 4rem)
+  p $name
+
+articlepage(0)
+  append head
+    style
+      #all-icons {
+        layout.flex(hlt);
+        flex-wrap: wrap;
+        padding: 0.1rem;
+
+        > div {
+          layout.flex(vcc);
+          width: 12rem;
+          margin: 0.5rem;
+        }
+      }
+
+  append intro
+    p code "std/icons"
+    br
+    p "A selection of " a(href="https://github.com/Templarian/MaterialDesign") "material design icons" < ", with convenient wrappers."
+
+  section
+    h2 "Usage"
+    h3 "div"
+    p "Use the icons as background images of a " code "div" < " tag:"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
+      cl 
+      cl cs 'icons.div' < '(home, ' cv '3rem' < ')'
+
+    p "The icon ends up as a data-uri in the style sheet."
+
+    h3 "svg"
+    p "Import the icons directly as " code "svg" < " tags:"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
+      cl 
+      cl cs 'icons.factory' < '(home, ' cv '3rem' < ')'
+      cl cs 'icons.factory' < '([home, ' cv '0.9' < '], ' cv '3rem' < ') ' cc '// home icon scaled down (svg is still 3rem by 3rem)'
+
+    h3 "Background image style"
+    p "Apply a background image to a tag via css:"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
+      cl
+      cl ck 'style' < " main"
+      cl(1) 'button {'
+      cl(2) 'background-image: ' cm '$icons.bgImageURI' < '(home, ' cv '3rem' < ', black);'
+      cl(1) '}'
+
+  section
+    h2 "Custom icons"
+    p "You can include your own icons by specifying an extension file as a parameter during the module import:"
+    cblock
+      cl ck 'import' < ' *(' cm 'path' < '(' cv '"./custom-icons.wtt"' < ')) ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
+      cl 
+      cl cs 'icons.factory' < '(my-custom-icon, ' cv '3rem' < ')'
+    br
+    p "An entry in the file with custom icons has the following format:"
+    cblock
+      cl cc "// ./custom-icons.wtt"
+      cl ck 'import' < " {mdi-icon} " ck "from" < " " cv '"std/icons"'
+      cl
+      cl ck "export template" < " my-custom-icon(scale) " ck "extends" < " mdi-icon " ck "super" < "(scale=" cm "$scale" < ")"
+      cl(1) cs 'path' < "(" cv '"M5,5V19H19V5Z"' < ")"
+
+  section
+    h2 "List"
+    p "(might take a while to load...)"
+    br
+
+    div(id=all-icons)
+      for name in $icons.allIconNames
+        icondiv($name)

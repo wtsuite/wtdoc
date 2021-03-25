@@ -1,0 +1,111 @@
+import * as icons from "std/icons"
+import * as layout from "std/layout"
+import * from "config.thtml"
+
+
+var prevNextHeight = 1.5rem
+var subtitleHeight = 1.3rem
+var jumpIconSize   = $subtitleHeight
+
+export style header
+  #breadcrumb {
+    > * {
+      display: inline-block;
+    }
+  }
+
+  header {
+    $centering;
+    width: calc(100% - $str(2*$gutter));
+    margin-bottom: $str(2*$gutter);
+
+
+    #prev-next-top {
+      margin-bottom: $str(0.75*$gutter);
+    }
+
+    .subtitle {
+      display: inline-block;
+      position: relative;
+
+      p {
+        font-size: $subtitleHeight;
+        line-height: $subtitleHeight;
+        font-weight: normal;
+      }
+
+      :not(:empty) {
+        margin-bottom: $gutter;
+
+        ::after {
+          content: " ";
+          background-image: $icons.bgImageURI(menu-down, $jumpIconSize, $linkColor);
+          width: $jumpIconSize;
+          height: $jumpIconSize;
+          display: block;
+          position: absolute;
+          top: 0;
+          right: -$jumpIconSize;
+        }
+
+        :hover {
+          cursor: pointer;
+          ::after {
+            background-image: $icons.bgImageURI(menu-down, $jumpIconSize, $darkText);
+          }
+        }
+      }
+
+      [show-jump] {
+        #jump-to-article {
+          display: flex;
+        }
+        ::after {
+          background-image: $icons.bgImageURI(menu-down, $jumpIconSize, $darkText);
+        }
+      }
+    }
+
+    #jump-to-article {
+      position: absolute;
+      $layout.flex(vlt);
+      background-color: #fff;
+      border: $border;
+      top: $subtitleHeight;
+      z-index: 1000;
+      left: 0;
+      right: -$jumpIconSize;
+      padding: $str(0.5*$gutter);
+      display: none;
+
+      a.local {
+        color: black;
+      }
+      
+      a {
+        width: 100%;
+      }
+    }
+
+    h1:not(:empty) {
+      font-size: 2rem;
+      font-weight: normal;
+    }
+  }
+
+  .prev-next {
+    line-height: $prevNextHeight;
+    height: $prevNextHeight;
+    .prev {
+      float: left;
+    }
+    .next {
+      float: right;
+    }
+  }
+
+  #prev-next-bottom {
+    margin-top: $gutter;
+    $centering;
+    width: calc(100% - $str(2*$gutter));
+  }

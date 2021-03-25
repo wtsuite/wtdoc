@@ -1,0 +1,10 @@
+export var articles = [
+  [abs("01-samples.thtml"), "Math samples"],
+]
+
+export {articlepage}(
+  $articles,
+  [url("../index.thtml") + "#math", "Math"],
+  [abs("../js/10-export.thtml"), "JS documentation"],
+  [abs("../webgl/01-dynamic-indexing.thtml"), "WebGL documentation"],
+) from "../../../templates/articlepage.thtml"

@@ -1,0 +1,45 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(1)
+  append intro
+    p "Tags in template script are indentation based. Specifying attributes is similar to passing arguments into functions."
+
+  section
+    h2 "Minimal html page"
+    p em "wtsuite" < "'s template script uses indentations to nest tags. The code needed for a minimal page is:"
+    cblock
+      cl cc "// !doctype is automatically added"
+      cl cs "html"
+      cl(1) cs "head"
+      cl(1) cs "body"
+
+  section
+    h2 "Attributes"
+    p "Attributes are passed into tags similar to how keyword arguments are passed into functions:"
+    cblock
+      cl cs "body"
+      cl(1) cs 'div' < "(id=" cv '"content"' < ')'
+      cl(2) cs 'input' < "(type=" cv '"text"' < ", placeholder=" cv '"..."' < ')'
+
+  section
+    h2 "Text"
+    p "Text nodes are literal strings, and, like regular tags, the indentation is used to determine under which tag to place them:"
+    cblock  
+      cl cs "div"
+      cl(1) cs 'a' < '(href=' cv '"https://www.wtsuite.com"' < ')'
+      cl(2) cv '"Click here"'
+    br
+    p "Literal strings can be placed inline with some tags:"
+    cblock  
+      cl cs "div"
+      cl(1) cs 'a' < '(href=' cv '"https://www.wtsuite.com"' < ') ' cv '"Click here"'
+    br
+    p "Multiple text tags can be placed inline, each new tag being nested in the previous tag. You can then use the " code "<" < " op to move back up a level:"
+    cblock
+      cl cs "div"
+      cl(1) cs 'p' < " " cv '"normal text "' < " " cs "b" < " " cv '"bold text"' < " " ck "&lt;" < " " cv '" normal text"'
+    p "Note how the spaces before and after the " code "b" < " tag are preserved."
+    br
+    p "Single quotes " code "'" < ", double quotes " code '"' < ", and backticks " code "`" < " can be used to specify literal strings. Each type of quotes escapes the other types of quotes."

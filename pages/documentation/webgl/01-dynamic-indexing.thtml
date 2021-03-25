@@ -1,0 +1,29 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(0)
+  append intro
+    p em "glsl es" < " doesn't support indexing dynamically, but " em "wtsuite" < " can auto-generate if-else trees that provide the convenience of dynamic indexing (the performance penalty of these if-else trees is usually an acceptable trade-off)."
+
+  section
+    h2 code "getIndex"
+
+    p code "getIndex" < " is a function-like macro allowing you to get a value from an array using a dynamic index:"
+    cblock
+      cl ct "float" < " arr[" cv "10" < "] = " ct "float" < "[" cv "10" < "](" cv "1" < "," cv "2" < "," cv "3" < "," cv "4" < "," cv "5" < "," cv "6" < "," cv "7" < "," cv "8" < "," cv "9" < "," cv "10" < ");"
+      cl
+      cl cc "// index i is unknown at compile time"
+      cl ct "float" < " result = getIndex(arr, i);"
+
+  section
+    h2 code "setIndex"
+    p code "setIndex" < " is similar to " code "getIndex" < " but with three arguments instead of two:"
+    cblock
+      cl ct "float" < " arr[" cv "10" < "];"
+      cl
+      cl cc "// index i is unknown at compile time"
+      cl "setIndex(arr, i, " cv "1.0" < ");"
+
+    br
+    p "The types must match of course."

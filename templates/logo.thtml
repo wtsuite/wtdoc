@@ -1,0 +1,3 @@
+export template logo extends a super(id=nav-logo, href=url("../pages/index.thtml"))
+  span(class=logo-left) "{wt"
+  span(class=logo-right) "suite}"

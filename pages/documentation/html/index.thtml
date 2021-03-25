@@ -1,0 +1,17 @@
+export var articles = [
+  [abs("01-getting-started.thtml"), "Getting started"],
+  [abs("02-tags.thtml"), "Tags"],
+  [abs("03-variables.thtml"), "Variables"],
+  [abs("04-operators.thtml"), "Operators"],
+  [abs("05-functions.thtml"), "Functions"],
+  [abs("06-templates.thtml"), "Templates"],
+  [abs("07-looping-and-branching.thtml"), "Looping and branching"],
+]
+
+export {articlepage}(
+  $articles, 
+  [url("../index.thtml") + "#html_", "html"],
+  [abs("../css/01-getting-started.thtml"), "CSS documentation"],
+  [abs("../js/01-getting-started.thtml"), "JS documentation"],
+  "HTML documentation",
+) from "../../../templates/articlepage.thtml"

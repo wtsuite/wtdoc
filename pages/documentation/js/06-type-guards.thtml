@@ -1,0 +1,37 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(5)
+  section
+    h2 "instanceof"
+    p "Like typescript, the " code "instanceof" < " operator can be used as a type guard condition in combination with an " code "if" < " statement:"
+    cblock
+      cl ck 'function' < ' toNumber(x ' ck 'any' < ') ' ct 'Number' < ' {'
+      cl(1) ck 'if' < ' (x ' ck 'instanceof' < ' ' ct 'String' < ') {'
+      cl(2) ck 'return' < ' ' ct 'Number' < '.parseFloat(x);'
+      cl(1) '} ' ck 'else if' < ' (x ' ck 'instanceof' < ' ' ct 'Number' < ') {'
+      cl(2) ck 'return' < ' x;'
+      cl(1) '} ' ck 'else if' < ' (x ' ck 'instanceof' < ' ' ct 'Boolean' < ') {'
+      cl(2) ck 'return' < ' x ? ' cv '1' < ' : ' cv '0' < ';'
+      cl(1) '} ' ck 'else if' < ' (x ' ck 'instanceof' < ' ' ct 'Array' < ') {'
+      cl(2) ck 'return' < ' x.length;'
+      cl(1) '} ' ck 'else' < ' {'
+      cl(2) ck 'throw new' < ' ' ct 'Error' < '(' cv '"Error: can' "'" 't be converted into a number"' < ');'
+      cl(1) '}'
+      cl '}'
+      cl
+      cl 'console.log(toNumber(' cv '"0.0"' < ')); ' cc '// 0.0'
+      cl 'console.log(toNumber(' cv '0.0' < ')); ' cc '// 0.0'
+      cl 'console.log(toNumber(' cv 'false' < ')); ' cc '// 0.0'
+      cl 'console.log(toNumber([])); ' cc '// 0.0'
+      cl 'console.log(toNumber({})); ' cc "// Error: can't be converted into a number"
+    br
+    h3 "Details"
+    p "Type guards only work if the left-hand side of " code "instanceof" < " is a simple variable, and the right-hand side is a class or interface. The type of the variable is altered for the scope of the type guard branch."
+    br
+    p "Type guard conditions can be placed inside parentheses, and can be combined with other type guard conditions using the " code "&&" < " operator:"
+    cblock
+      cl ck "if" < " ((x " ck "instanceof" < " " ct 'Number' < ') && (y ' ck 'instanceof' < ' ' ct 'Number' < ")) {"
+      cl(1) 'console.log(' cv '"both x and y are numbers in this scope"' < ');'
+      cl "}"

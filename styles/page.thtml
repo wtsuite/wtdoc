@@ -1,0 +1,50 @@
+import * from "config.thtml"
+
+
+export style page
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    height: 100%;
+  }
+
+  body {
+    overflow-y: scroll;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-size: 1rem;
+    position: relative;
+    color: $darkText;
+    flex-direction: column;
+    font-family: sans;
+    main { 
+      counter-reset: h2-counter;
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 auto;
+      article {
+        flex: 1 0 auto;
+      }
+    }
+  }
+
+  #introduction:empty {
+    display: none;
+  }
+
+  section {
+    margin-bottom: 4rem;
+    :last-child {
+      margin-bottom: 2rem;
+    }
+    counter-reset: h3-counter;
+  }
+
+  article {
+    $centering;
+    width: calc(100% - $str(2*$gutter));
+  }

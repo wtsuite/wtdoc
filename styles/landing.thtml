@@ -1,0 +1,170 @@
+import * as icons from "std/icons"
+import * as layout from "std/layout"
+import * from "config.thtml"
+
+
+style landing-centering 
+  {
+    margin: 2rem $(m := 20%) 2rem $m;
+    width: $(100% - 2*$m);
+    $normalMedia {
+      width: calc(100% - 2rem);
+      $centering;
+    }
+    $mobileMedia {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+  }
+
+export style main 
+  @wrap-siblings .quote {
+    class: quotes-wrapper;
+  }
+
+  nav > ul {
+    $mobileMedia {
+      box-shadow: 0px 4px 2px #6c5000 !important;
+    }
+  }
+
+  header {
+    min-height: 8rem;
+    position: relative;
+    $layout.flex(vcc);
+    $landing-centering;
+    h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-weight: 300;
+      font-size: 3rem !important;
+    }
+
+    #contribute {
+      position: absolute;
+      left: 0;
+      top: 1rem;
+      background-image: $icons.bgImageURI(github, 3rem, #6c5000);
+      background-repeat: no-repeat;
+      font-size: 1.3rem;
+      :hover {
+        color: #2d2d2d;
+        background-image: $icons.bgImageURI(github, 3rem, #2d2d2d);
+      }
+      height: 3rem;
+      width: 3rem;
+      $normalMedia {
+        left: $gutter;
+      }
+      $mobileMedia {
+        display: none;
+      }
+    }
+  }
+
+
+  h2 {
+    font-weight: 300;
+    font-size: 2rem;
+    ::before {
+      display: none;
+    }
+  }
+
+  main {
+    font-family: $landingFont;
+    background-color: #ffbb00;
+    color: #2d2d2d;
+
+    p {
+      font-weight: 300;
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    b {
+      font-weight: 700;
+    }
+
+    a {
+      color: #6c5000;
+
+      :hover {
+        color: #2d2d2d;
+      }
+    }
+  }
+
+  section {
+    $landing-centering;
+
+    :first-of-type {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .quotes-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 10%;
+      grid-row-gap: 4rem;
+
+      $mobileMedia {
+        display: block;
+        > * {
+          margin-bottom: 4rem;
+          :last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .quote:nth-child(2n+1) {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+
+    .quote:nth-child(2n) {
+      grid-column-start: 2;
+      grid-column-end: 3;
+    }
+
+    .quote {
+      max-width: 400px;
+    }
+
+    #get-started {
+      //background-color: #0e9f0e;
+      color: #0e9f0e;
+      padding: 0.6rem;
+      font-size: 1.5rem;
+      border-radius: 0.3rem;
+      border: 2px solid #0e9f0e;
+      :hover {
+        background-color: #0daa0d;
+        border: 2px solid #0daa0d;
+        color: white;
+      }
+    }
+
+    .cblock {
+      background-color: #2d2d2d;
+      color: #d8d8d8;
+
+      .ck {
+        color: #7eb500;
+      }
+
+      .cv {
+        color: #00d9d9;
+      }
+
+      .cs {
+        color: #0086ff;
+      }
+    }
+  }

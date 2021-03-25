@@ -1,0 +1,53 @@
+import {favicon} from "favicon.thtml"
+import {logo} from "logo.thtml"
+
+var defaultDescription = "wtsuite, all your html5 needs in one place. wtsuite is collection of transpilers for css, html, svg, math, js and glsl. Free and open source."
+
+var links = {
+  url("../pages/documentation/index.thtml"): "Documentation",
+  url("../pages/packages/index.thtml"): "Packages",
+  url("../pages/services/index.thtml"): "Services",
+  url("../pages/download/index.thtml"): "Download",
+}
+
+export template page(title=null, description=null, mobile=true) extends html super()
+  head
+    if ($title != null)
+      title $title + " | wtsuite"
+    else
+      title "wtsuite | html5 transpilers"
+
+    if $description != null
+      meta(name=description, content=$description)
+    else
+      meta(name=description, content=$defaultDescription)
+
+    meta(charset="utf-8")
+
+    if $mobile
+      meta(name=viewport, content="width=device-width, initial-scale=1")
+
+    favicon
+
+    block head
+
+  body
+    nav
+      logo
+
+      ul(id=nav-links)
+        for item in items($links)
+          li
+            a(href=item[0]) $item[1]
+
+      button(id=hamburger-menu-button)
+    
+    main
+      block default
+
+    footer
+      div
+        p $str($year())
+
+      div 
+        p "by " a(href="https://computeportal.com") "Compute Portal"

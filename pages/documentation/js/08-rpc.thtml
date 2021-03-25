@@ -1,0 +1,138 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(7)
+  append intro
+    p "The " em "wtsuite" < " script compiler leverages the type system to auto-generate remote procedure call code. All you need to do is define an " code "rpc interface" < ", and specify the transfer mechanism of serialized javascript objects."
+
+  section
+    h2 "rpc interface"
+    p "An " code "rpc interface" < " is similar to a regular interface, with some restrictions:"
+
+    ul
+      li "none of the member functions can be getters or setters"
+      li "all member function arguments and return types must be fully typed (" code "any" < " can't be used)"
+      li "all member function return values must be of " code "Promise" < " type (or use " code "async" < ")"
+      li "all member function arguments and resolved return types must be primitives, instances of universal classes, or instances that implement an " code "rpc interface"
+
+    br
+    p "An example " code "rpc interface" < " is defined as follows:"
+    cblock
+      cl ck "rpc interface" < " Credentials {"
+      cl(1) ck "async" < " login(email " ct "String" < ", password " ct "String" < ") " ct "String" < ";"
+      cl(1) ck "async" < " deleteAccount(email " ct "String" < ") " ct "String" < ";"
+      cl "}"
+
+  section
+    h2 "RPCClient"
+    p "On the client side you create a new " code "RPCClient" < ", specifying the " code "rpc interface" < ", and a connection function:"
+
+    cblock
+      cl "client := " ck "new" < " RPCClient(Credentials, " ck "function" < "(s " ct "String" < ") " ct "Promise" < "&lt;" ct "String" < "&gt; {"
+      cl(1) ck "return new" < " " ct "Promise" < "(" ck "function" < "(resolve " ck "function" < "&lt;" ct "String" < ", " ck "void" < "&gt;, reject " ck "function" < "&lt;" ct "Error" < ", " ck "void" < "&gt;) {"
+      cl(2) "req := " ck "new" < " XMLHttpRequest();"
+      cl(2) "req.open(" cv "'POST'" < ", " cv "'/api/credentials'" < ");"
+      cl(2) "req.setRequestHeader(" cv "'Content-Type'" < ", " cv "'application/json'" < ");"
+      cl(2) "req.onerror = " ck "function" < "(){reject(" ck "new" < " " ct "Error" <"(" cv "'POST failed'" < "))};"
+      cl(2) "req.onload = " ck "function" < "(){"
+      cl(3) ck "if" < " (req.status==" cv "200" < "){"
+      cl(4) "resolve(req.responseText);"
+      cl(3) "} else {"
+      cl(4) "reject(" ck "new" < " " ct "Error" < "(" cv "'POST failed'" < "));"
+      cl(3) "}"
+      cl(2) "}"
+
+      cl(2) "req.send(s);"
+
+      cl(1) "});"
+      cl "});"
+    br
+    p "The connection function must accept exactly one " code "String" < " and return a " code "Promise&lt;String&gt;" < " (or be an " code "async" < " function returning a " code "String" < ")."
+    br
+    p "When the connection has been established you can use the " code "RPCClient" < " instance as an implementation of the specified interface:"
+    cblock
+      cl "token := " ck "await" < " client.login(email, password);"
+    br
+    p "Note that the " code "RPCClient" < " constructor is a macro, and the " code "RPCClient" < " class can't be accessed as a variable. More generally you should note that only macros can reference interfaces."
+
+  section
+    h2 "RPCServer"
+    p "On the server side you create a new " code "RPCServer" < ", specifying the same " code "rpc interface" < " as on the client side, and an instance of a class that implements that interface:"
+
+    cblock
+      cl ck "class" < " DB " ck "implements" < " Credentials {"
+      cl(1) "constructor() {"
+      cl(1) "}"
+      cl
+      cl(1) ck "async" < " login(email " ct "String" < ", password " ct "String" < ") " ct "String" < " {"
+      cl(2) ck "return" < " " cv "'token...'" < ";"
+      cl(1) "}"
+      cl
+      cl(1) ck "async" < " deleteAccount(email " ct "String" < ") {"
+      cl(2) "console.log(" cv "'deleting '" < " + email + " cv "'...'" < ");"
+      cl(1) "}"
+      cl "}"
+      cl
+      cl "server := " ck "new" < " RPCServer(Credentials, " ck "new" < " DB());"
+
+    br
+    p "Received messages must subsequently be passed into the " code "RPCServer" < " via the " code "handle" < " function:"
+    cblock
+      cl "response := " ck "await" < " server.handle(request); " cc "// both request and response are Strings"
+    br
+    p "Any error caught on the server side is relayed as a response back to the client."
+
+  section
+    h2 "Nested rpc interfaces"
+    p "Arguments of " code "rpc interface" < " function members, that are rpc interfaces themselves, can be used for more complex communications. The messages are then passed back and forth until all requests have been satisfied. A complete example:"
+    cblock
+      cl ck "rpc interface" < " Form {"
+      cl(1) ck "async" < " setValue(s " ct "String" < ");"
+      cl "}"
+      cl 
+      cl ck "rpc interface" < " ServerSide {"
+      cl(1) ck "async" < " fillForm(f Form);"
+      cl "}"
+      cl 
+      cl ck "class" < " ServerSideData " ck "implements" < " ServerSide {"
+      cl(1) "constructor() {"
+      cl(1) "}"
+      cl 
+      cl(1) ck "async" < " fillForm(f Form) {"
+      cl(2) ck "void" < " f.setValue(" cv "'hello world'" < ");"
+      cl(1) "}"
+      cl "}"
+      cl 
+      cl ck "class" < " ClientSideForm " ck "implements" < " Form {"
+      cl(1) "constructor() {"
+      cl(1) "}"
+      cl 
+      cl(1) ck "async" < " setValue(s " ct "String" < ") {"
+      cl(2) "console.log(" cv "'setting form value to: '" < ", s);"
+      cl(1) "}"
+      cl "}"
+      cl 
+      cl ck "var" < " server RPCServer;"
+      cl 
+      cl cc "// test the rpc locally"
+      cl "client := " ck "new" < " RPCClient(ServerSide, " ck "async function" < "(s " ct "String"  < ") " ct "String" < " {"
+      cl(1) ck "return await" < " server.handle(s);"
+      cl "});"
+      cl 
+      cl "server = " ck "new" < " RPCServer(ServerSide, " ck "new" < " ServerSideData());"
+      cl 
+      cl "f := " ck "new" < " ClientSideForm();"
+      cl 
+      cl ck "void" < " client.fillForm(f);"
+
+  section
+    h2 "Special situations"
+    h3 "Return values"
+    p "An " code "rpc interface" < " member function that itself returns an " code "rpc interface" < " instance, reuses the established communication method for that returned instance."
+    br
+    p "Because there is no rpc equivalent of garbage collection, each returned " code "rpc interface" < " instance remains in memory until the connection is broken."
+
+    br
+    h3 "Reuse of RPCClients"
+    p "If an " code "rpc interface" < " function member argument is a previous " code "RPCClient" < ", using the same communication context, then the " code "RPCServer" < " will try to reuse the original underlying object directly. The inverse is also true."

@@ -1,0 +1,65 @@
+import * as content from "content"
+
+// regular file browsing no longer works
+// what about page parameters? form a list using other functions
+// expected content json
+// TODO: directive markdown(read(path($file))) or markdown($content["posts"][0])
+//var content = read($CONTENT, json) // same as json(read($CONTENT))
+
+function postPages() {
+  dict(map(content["posts"], function(post) {
+    dst := slug(post.title);
+    src := "./post.thtml";
+    args := [post.description];
+    [$dst, [$src] + $args];
+  }))
+}
+
+// what about getting members using . notation?
+
+function foundpages() {
+  dict(map(find(files(abs("."), true), function(file) {matches($file, ".thtml$")}), function(file) {
+    src := $file; 
+    dst := noext(rel($file)) + ".html";
+    [$src, $dst];
+  }))
+}
+
+var allPages = values(foundPages())
+
+// the json intermediate format loses some information (eg. colors and numbers with units)
+
+export var main = {
+  pages: { // needed
+    // initial slash is optional
+    "/index.html": "./index.thtml",
+    "/doc/index.html": "./doc/index.thtml",
+    <special-page-with-parameters>: ["./index.thtml", 
+    // automatically populate using a special find function
+  },
+  files: { // optional
+    "/favicon.png": "./art/favicon.png",
+  },
+  controls: { // optional
+    "./index.tjs": $allPages, // rhs can be list of strings or single string
+    "./doc/webgl/mandelbrot.tjs": "./doc/webgl/03-mandelbrot-example.thtml",
+    "./doc/general/search.tjs": "./doc/general/03-client-side-search.thtml",
+    // later rules overwrite previous rules
+  },
+  search: { // optional
+    // multiple indices can be specified
+    "/search-index.json": {
+      title: h1, // needed
+      content: main, // optional, can be whole body in most extreme case
+      ignore: [
+        a, all, always, an, and, any, are, at, be, but, by, can, does, for, got, has, have, if, in, into, is, it, its, like, must, no, not, of, or, our, per, that, the, their, them, there, this, to, us, use, used, uses, want, what, where, which, will, with, would,
+      ],
+    }
+  },
+  style: { // optional
+    main: "./style/main.thtml", // optional
+    px-per-rem: 16, // optional
+  }
+
+  // bundle.js, style.css and math.woff2 are automatically included, with alternate unique names if there is a conflict
+}

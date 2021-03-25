@@ -1,0 +1,32 @@
+import * from "config.thtml"
+
+
+var footerHeight = 2rem
+
+
+export style footer
+  @wrap footer {
+    id: footer-wrapper;
+  }
+
+  #footer-wrapper {
+    border-top: $border;
+  }
+
+  footer {
+    $centering;
+    height: $footerHeight;
+    font-size: 0.9em;
+    p {
+      line-height: $footerHeight;
+    }
+    > * {
+      display: inline-block;
+      :first-child {
+        float: left;
+      }
+      :last-child {
+        float: right;
+      }
+    }
+  }

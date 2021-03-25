@@ -1,0 +1,29 @@
+permissive
+parameters(articles, category=null, prevCategoryArticle=null, nextCategoryArticle=null, subtitle=null)
+
+import {docpage} from "docpage.thtml"
+
+function getPrev(i) {
+  $i !! ifelse($i < 1, $prevCategoryArticle, articles[$i - 1])
+}
+
+function getNext(i) {
+  $i !! ifelse($i > len($articles) - 2, $nextCategoryArticle, articles[$i + 1])
+}
+
+export template articlepage(i, description=null) extends docpage super(
+  $articles[$i] !! $articles[$i][1],
+  $description,
+  prev=getPrev($i),
+  next=getNext($i),
+)
+  append before-title
+    if $subtitle != null 
+      div(class=subtitle)
+        p
+          $subtitle
+
+        div(id=jump-to-article)
+          for j, article in $articles
+            a(href=url($article[0]), class=ifelse($i == $j, "local", null)) 
+              $str($j+1) + ". " + $article[1]

@@ -1,0 +1,141 @@
+import {blackbody} from "std/colors";
+
+precision highp float;
+
+varying highp vec2 vDelta;
+varying highp vec2 vCenter;
+
+const int maxNaiveIter = 300;
+const vec4 color0 = vec4(0.0, 0.0, 0.0, 1.0);
+//const vec4 color1 = vec4(0.039, 0.539, 1.0, 1.0);
+
+vec2 nextGen(vec2 z, vec2 z2, vec2 c) {
+  float x = z2.x - z2.y + c.x;
+  float y = 2.0*z.x*z.y + c.y;
+
+  return vec2(x, y);
+}
+
+vec4 pickColor(float iter) {
+  iter = mod(iter, 100.0);
+
+  if (iter < 50.0) {
+    //return mix(color0, color1, iter/50.0);
+    return blackbody(iter/50.0);
+  } else {
+    //return mix(color1, color0, (iter - 50.0)/50.0);
+    return blackbody((50.0 - iter)/50.0);
+  }
+}
+
+// multiple two complex numbers
+vec2 mul(vec2 a, vec2 b) {
+  return vec2(a.x*b.x - a.y*b.y, a.y*b.x + a.x*b.y);
+}
+
+vec2 add(vec2 a, vec2 b) {
+  return vec2(a.x + b.x, a.y + b.y);
+}
+
+vec2 sub(vec2 a, vec2 b) {
+  return vec2(a.x - b.x, a.y - b.y);
+}
+
+float naive(vec2 c) {
+  vec2 z2 = vec2(0.0, 0.0);
+  vec2 z = vec2(0.0, 0.0);
+
+  float iterRes = float(maxNaiveIter);
+  vec2 z2Res = z2;
+
+  for(int iter=1; iter < maxNaiveIter; iter++) {
+    float prev = z2.x + z2.y;
+
+    z = nextGen(z, z2, c);
+    z2 = vec2(z.x*z.x, z.y*z.y);
+
+    float next = z2.x + z2.y;
+
+    if (prev <= 4.0 && next > 4.0) {
+      iterRes = float(iter);
+      z2Res = z2;
+    }
+  }
+
+  if (iterRes < float(maxNaiveIter)) {
+    float log_zn = 0.5*log(z2Res.x + z2Res.y);
+    float nu = log(log_zn/log(2.0))/log(2.0);
+    iterRes = iterRes + 1.0 - nu;
+  }
+
+  return iterRes;
+}
+
+vec4 sub4(vec4 a, vec4 b) {
+  return vec4(a.x-b.x, a.y-b.y, a.z-b.z, a.w-b.w);
+}
+
+vec4 add4(vec4 a, vec4 b) {
+  return vec4(a.x+b.x, a.y+b.y, a.z+b.z, a.w+b.w);
+}
+
+vec4 mul4(vec4 a, vec4 b) {
+  //vec2 high = mul(a.xy, b.xy);
+  //vec2 low = add(add(mul(a.xy, b.zw), mul(a.zw, b.xy)), mul(a.zw, b.zw));
+
+  vec2 med = add(mul(a.xy, b.zw), mul(a.zw, b.xy));
+
+  vec2 highest = mul(a.xy, b.xy);
+
+  vec2 high = add(med, highest);
+
+  //vec2 low = mul(a.zw, b.zw);
+  //vec2 low = mul0.0, 0.0);//mul(a.zw, b.zw);
+  vec2 low = add(mul(a.zw, b.zw), sub(sub(high, highest), med));
+
+  return vec4(high.x, high.y, low.x, low.y);
+}
+
+
+float naiveHighLow(vec4 c) {
+  vec2 z2 = vec2(0.0, 0.0);
+
+  // high/high, low/low
+  vec4 z = vec4(0.0, 0.0, 0.0, 0.0);
+
+  float iterRes = float(maxNaiveIter);
+  vec2 z2Res = z2;
+
+  for(int iter=1; iter < maxNaiveIter; iter++) {
+    float prev = z2.x + z2.y;
+
+    // evolve most significant part
+    z = add4(mul4(z, z), c);
+
+    vec2 ztot = add(z.xy, z.zw);
+
+    z2 = vec2(ztot.x*ztot.x, ztot.y*ztot.y);
+
+    float next = z2.x + z2.y;
+
+    if (prev <= 4.0 && next > 4.0) {
+      iterRes = float(iter);
+      z2Res = z2;
+    }
+  }
+
+  if (iterRes < float(maxNaiveIter)) {
+    float log_zn = 0.5*log(z2Res.x + z2Res.y);
+    float nu = log(log_zn/log(2.0))/log(2.0);
+    iterRes = iterRes + 1.0 - nu;
+  }
+
+  return iterRes;
+}
+
+void main() {
+  //float iter = naiveHighLow(vec4(vCenter.x, vCenter.y, vDelta.x, vDelta.y));
+  float iter = naive(vec2(vCenter.x + vDelta.x, vCenter.y + vDelta.y));//, vDelta.x, vDelta.y));
+
+  gl_FragColor = pickColor(iter);
+}

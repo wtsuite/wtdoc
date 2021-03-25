@@ -1,0 +1,94 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(0)
+  append intro
+    p "Style sheets can be defined using conventional style tags in the head block, or via the " code "style" < " attribute, which " em "wtsuite" < " tries to intelligently turn into a common site-wide stylesheet."
+
+  section
+    h2 code "style" < " tag"
+
+    p "Linking to a separate style sheet file is done with the " code "link" < " tag:"
+    cblock
+      cl cs "head"
+      cl(1) cs "link" < "(href=" cv '"/style.css"' < " rel=" cv '"stylesheet"' < " type=" cv '"text/css"' < ")"
+    br
+    p "Style sheet markup can be entered directly in the style tag:"
+    cblock
+      cl cs "head"
+      cl(1) cs "style"
+      cl(2) "body {"
+      cl(3) "height: " cv "100%" < ";"
+      cl(2) "}"
+
+  section
+    h2 "Named styles"
+
+    p "Named styles are like variable directives:"
+    cblock
+      cl ck "export style" < " main"
+      cl(1) "body {"
+      cl(2) "height: " cv "100%" < ";"
+      cl(1) "}"
+
+    br
+    p "Named styles can be transpiled into css files by " em "wt-style" < ":"
+    cblock
+      cl "> wt-style main.wtt"
+    p code "main.wtt" < " in this case must export a style variable or dictionary variable called " code "main" < "."
+    br
+
+    p "Named styles can also be used directly in style tags:"
+    cblock
+      cl ck "import" < " {main} " ck "from" < " " cv '"./main.wtt"'
+      cl "head"
+      cl(1) "style"
+      cl(2) cm "$main"
+
+  section
+    h2 "CSS extensions"
+    p "Like " em "LESS" < " and " em "SCSS" < " " em "wtsuite" < " provides some extensions of css to make it much easier to build complex websites."
+    br
+    p "The following example code demonstrates many of these features:"
+    cblock
+      cl ck "var" < " mobileMedia = " cv '"@media screen and (max-width: 700px)"'
+      cl
+      cl ck "style" < " main"
+      cl(1) "section {"
+      cl(2) "margin: " cv "4rem" < " " cm "$" < "(m := " cv "20%" < ") " cv "4rem" < " " cm "$m" < ";"
+      cl(2) "width: " cm "$" < "(" cv "100%" < " - " cv "2" < "*" cm "$m" < ");"
+      cl
+      cl(2) ".quotes-wrapper {"
+      cl(3) "display: grid;"
+      cl(3) "grid-template-columns: " cv "1fr" < " " cv "1fr" < ";"
+      cl(3) "grid-column-gap: " cv "10%" < ";"
+      cl(3) "grid-row-gap: " cv "4rem" < ";"
+      cl
+      cl(3) cm "$mobileMedia" < " {"
+      cl(4) "display: block;"
+      cl(4) "> * {"
+      cl(5) "margin-bottom: " cv "4rem" < ";"
+      cl(5) ":last-child {"
+      cl(6) "margin-bottom: " cv "0" < ";"
+      cl(5) "}"
+      cl(4) "}"
+      cl(3) "}"
+      cl(2) "}"
+      cl(1) "}"
+    p "Note that both selectors and rules accept substituted variables. Also note the bubbling of nested rules."
+
+    h3 code "@wrap"
+    p "To avoid div-soup, and to keep your html markup free from any styling related concerns, " em "wtsuite" < " has a " code "@wrap" < " css extension."
+    br
+    p "It allows you to wrap any tag in your html with a " code "div" < ", or another tag-type, from within your stylesheet:"
+    cblock
+      cl cs "style"
+      cl(1) cm "@wrap" < " section {"
+      cl(2) "class: section-wrapper; " cc '// creates a &lt;div class="section-wrapper"&gt;...&lt;/div&gt; wrapper'
+      cl(1) "}"
+    br
+    p "The " code "@wrap" < " rules are evaluated before any other rules in your stylesheet. They must be declared at the top-level of the stylesheet, and are evaluated in the order they are encountered by the parser (allowing you to nest wrappers)."
+
+    h3 code "@wrap-siblings"
+    p code "@wrap-siblings" < "  is similar to " code "@wrap" < ", but wraps neighbouring siblings in the same wrapper tag."

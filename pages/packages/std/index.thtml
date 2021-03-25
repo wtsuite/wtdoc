@@ -1,0 +1,12 @@
+export var modules = [
+  [abs("01-icons.thtml"), "html", "icons"],
+]
+
+var articles = map($modules, function(item) {
+  [item[0], item[2]]
+})
+
+// TODO: special packagepage, so that (other-tech) caption is available in prev-next
+export {articlepage}(
+  $articles,
+) from "../../../templates/articlepage.thtml"

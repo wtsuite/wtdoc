@@ -1,0 +1,124 @@
+import * from "templates"
+import {articlepage} from "./index.thtml"
+
+
+template semver(caption="semver") extends a super(href="https://semver.org")
+  $caption
+
+
+articlepage(1)
+  append intro
+    p "Like " em "npm" < " a " code "package.json" < " file is used to specify dependencies and declare exports. Packages can easily be imported or exported from git repositories."
+    br
+    p code "package.json" < " must be available in the root directory of your project (it can be an empty dict though)."
+    br
+    p "You should think of a package as a bundle of modules."
+
+  section
+    h2 "Importing packages"
+    p "Packages can be imported by specifying their repository urls in the " code "package.json" < " file. For example the " code "std" < " package is typically specified as:"
+    cblock
+      cl '{'
+      cl(1) '"dependencies": {'
+      cl(2) '"std": {'
+      cl(3) '"minVersion": "0.0.0",'
+      cl(3) '"maxVersion": "2.0.0",'
+      cl(3) '"url": "github.com/computeportal/wtlib"'
+      cl(2) '}'
+      cl(1) '}'
+      cl '}'
+    br
+    p "Package modules can then be imported by using " code em "pkg-name" < "/" em "module-name" < < " (the module name can contain slashes):"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' basic ' ck 'from' < ' ' cv '"std/templates/basic"'
+    br
+    p "You must use the " em a(href="#wt-pkg-sync") "wt-pkg-sync" < < " command before using new packages."
+
+  section
+    h2 "Package versions"
+    p "The " code "minVersion" < " and " code "maxVersion" < " entries in " code "package.json" < " are optional. They are are in " semver < " format."
+    br
+    p "When " code "minVersion" < " is omitted then it defaults to " code '"0.0.0"' < ". When " code "maxVersion" < " is omitted then the most recent version of the imported package is used."
+    br
+    p code "minVersion" < " specifies the minimum required version of the imported package to be used."
+    br
+    p code "maxVersion" < " specifies the first version considered not to be backward compatible, so it the exclusive upper limit (and not the actual max version allowed to be used)."
+
+  section
+    h2(id=taggin-in-git) "Tagging in git"
+    p "Imported git repositories must have commits that are tagged with valid " semver("semver's") < " before they can be used."
+    br
+    p "If you use the " em "git" < " command line tools, you can do this as follows for the current commit:"
+    cblock
+      cl '> git tag -a v1.2.3 -m "release v1.2.3"'
+    br
+    p "If you would like to tag a previous commit you can specify the first few letters of that commit's hash:"
+    cblock 
+      cl '> git tag -a v1.2.3 -m "release v1.2.3" f9c72...'
+    br
+    p "The " code "v" < " preceding the " semver < " is optional, but is customary and " em "wt-pkg-sync" < " understands it. The tag message is optional."
+    br
+    p "Don't forget to push your tags to the repository afterwards:"
+    cblock 
+      cl '> git push origin --tags'
+
+  section
+    h2 "Exporting modules"
+    p "Your project repository acts as a package. You declare the modules to be exported in the same " code "package.json" < " file you use to declare the imported packages. Each transpiler language (template script, typed javascript, and glsl) gets a different section:"
+    cblock
+      cl '{'
+      cl(1) '"dependencies": {'
+      cl(2) '"std": ...'
+      cl(1) '},'
+      cl(1) '"templateModules": {'
+      cl(2) '"mymodule": "./templates/index.thtml"'
+      cl(1) '},'
+      cl(1) '"scriptModules": {'
+      cl(2) '"mymodule": "./scripts/index.tjs"'
+      cl(1) '}'
+      cl(1) '"shaderModules": {'
+      cl(2) '"mymodule": "./shaders/index.tglsl"'
+      cl(1) '},'
+      cl '}'
+    br
+    p "If for example your package is hosted via " code "github.com/awesomehacker/awesomepkg" < ", then the " code "package.json" < " of someone wanting to import the latest version of your package will look like:" 
+    cblock
+      cl '{'
+      cl(1) '"dependencies": {'
+      cl(2) '"awesomepkg": {'
+      cl(3) '"url": "github.com/awesomehacker/awesomepkg"'
+      cl(1) '},'
+      cl '}'
+
+    br
+    p "And that person can use the imported modules as follows:"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' module ' ck 'from' < ' ' cv '"awesomepkg/mymodule"'
+    br
+    p "Remember to " a(href="#tagging-in-git") "tag the commits" < " of the versions of your package that you want to be available for others."
+
+  section
+    h2(id="wt-pkg-sync") "wt-pkg-sync"
+    p "The " em "wt-pkg-sync" < " command downloads any dependencies (and dependencies of dependencies etc.), and checks if the " semver < " constraints are met. It can be used without arguments:"
+    cblock 
+      cl "> wt-pkg-sync"
+    br
+    p "When invoking " em "wt-pkg-sync" < ", " code "package.json" < " must exist in the " em "pwd" < ", or a parent directory of the " em "pwd" < "."
+    br
+    p em "wt-pkg-sync" < " also updates any imported packages with more recent versions, as allowed by the version constraints."
+
+    h3 "Install location"
+    p "The imported packages are installed in " code "~/.local/share/wtsuite/" < " by default. Alternative install directories can be set via the " code "WTPATH" < " environment variable."
+
+    h3 "Forced sync"
+    p "If an installed version of an imported package becomes corrupted, you can force reinstallation:"
+    cblock 
+      cl "> wt-pkg-sync -f"
+
+    h3 "Testing the latest"
+    p "If you want to test the latest version of an imported package you can pass the " code "-l" < " option to " em "wt-pkg-sync" < ":"
+    cblock 
+      cl "> wt-pkg-sync -l"
+
+    br
+    p "This effectively ignores the " code "maxVersion" < " entries in " code "package.json" < ". To subsequently test a build of your project, using the latest versions of the imported packages, pass the " code "-l" < " option to any of the relevant " em "wtsuite" < " commands."

@@ -1,0 +1,73 @@
+import * from "config.thtml"
+
+
+export style main
+  @wrap-siblings article > section {
+    class: sections-wrapper;
+  }
+
+  @wrap article section {
+    class: section-wrapper;
+  }
+
+  .article-list {
+    display: flex;
+    flex-direction: column;
+    counter-reset: article-list-item;
+    > a {
+      //margin-left: 2rem,
+      ::before {
+        counter-increment: article-list-item;
+        content: counter(article-list-item) ". ";
+      }
+    }
+  }
+
+  article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .sections-wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      height: min-content;
+      margin: -$gutter 0 -$gutter 0;
+    }
+
+    .section-wrapper:first-child {
+      display: none;
+    }
+
+    .section-wrapper {
+      margin: $gutter 0 $gutter 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      width: $str(100%/4.0);
+
+      @media only screen and (max-width: $str($maxPageWidth/1.5)) {
+        width: $str(100%/2.0);
+      }
+      $mobileMedia {
+        width: 100%;
+      }
+      //border-right: $border;
+      //:last-child {
+        //border-right: none;
+      //}
+    }
+
+    section {
+      min-width: $str(w := ($maxPageWidth - 2*$gutter)/6.0);
+      max-width: $w;
+      margin-bottom: 0;
+    }
+    
+    // last-child is irrelevant because it is now wrapped
+    section:last-child {
+      margin-bottom: 0;
+    }
+  }

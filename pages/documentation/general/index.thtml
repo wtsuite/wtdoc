@@ -1,0 +1,13 @@
+export var articles = [
+  [abs("01-overview-tools.thtml"), "Overview of tools"],
+  [abs("02-package-management.thtml"), "Package management"],
+  [abs("03-client-side-search.thtml"), "Client-side search"],
+]
+
+export {articlepage}(
+  $articles,
+  [url("../index.thtml") + "#general", "General"],
+  null,
+  [abs("../css/01-getting-started.thtml"), "CSS documentation"],
+  subtitle="General documentation",
+) from "../../../templates/articlepage.thtml"

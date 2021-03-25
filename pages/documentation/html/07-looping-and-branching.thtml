@@ -1,0 +1,45 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(6)
+  append intro
+    p "The template script language has " code "for" < " loops, " code "if-else" < " directives, and " code "switch" < " directives."
+
+  section
+    h2 "For loop"
+    p "An example for loop looks like follows:"
+    cblock
+      cl cs "ul"
+      cl(1) ck "for" < " item " ck "in" < " " cm "$items"
+      cl(2) cs "li" < " " cm "$item"
+    br
+    p "If you also need the index (0-based!), you can specify two names, separated by a comma, before the " code "in" < " keyword:"
+    cblock
+      cl cs "ul"
+      cl(1) ck "for" < " i, item " ck "in" < " " cm "$items"
+      cl(2) cs "li" < " " cm "$str" < "(" cm "$i" < ') + ' cv '". "' < ' + ' cm "$item"
+
+  section
+    h2 "If else"
+    p code "if" < " and " code "elseif" < " directives take boolean condition as an argument. " code "elseif" < " and " code "else" < " directives must be preceded by an " code "if" < " directive on the same indentation level:"
+    cblock
+      cl cs 'body'
+      cl(1) ck "if" < " " cm "$title" < " != " cv "null"
+      cl(2) cs 'h1' < ' ' cm '$title'
+      cl(1) ck "else"
+      cl(2) cs 'h1' < ' ' cm '$defaultTitle'
+
+  section
+    h2 "Switch"
+    p "A " code "switch" < " is good alternative to an " code "if-else" < " directive if there are many similar cases:"
+    cblock
+      cl ck "switch" < " " cm "$tag"
+      cl(1) ck "case" < ' ' cv '"div"'
+      cl(2) cs "div"
+      cl(1) ck "case" < ' ' cv '"form"'
+      cl(2) cs "form"
+      cl(1) ck "case" < ' ' cv '"section"'
+      cl(2) cs "section"
+      cl(1) ck "default"
+      cl(2) cm "$error" < '(' cv '"tag type "' < ", " cm "$tag" < ", " cv '" not handled"' < ")"

@@ -1,0 +1,33 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(1)
+  append intro
+    p "Shader code can be placed in separate files and transpiled separately from javascript. The " code "WebGLProgram" < " macro provides convenient access to this transpilation from within javascript."
+
+  section
+    h2 "Usage"
+
+    p "The literal paths of the vertex and fragment shaders must be passed into the " code "WebGLProgram" < " macro:"
+    cblock
+      cl 'canvas := ' ck "cast" < "(" ck "document" < ".getElementById(" cv '"canvas"' <"), " ct "HTMLCanvasElement" < ');'
+      cl 'gl := canvas.getContext(' cv '"webgl"' < ');'
+      cl 'program := ' ck 'new' < " " ct "WebGLProgram" < "(gl, " cv '"./vertex-shader.tglsl"' < ", " cv '"./fragment-shader.tglsl"' < ');'
+    br
+    p "The macro takes care of the transpilation, compilation and linkage. The returned value is of " code "WebGLProgram" < " type."
+
+
+
+  section
+    h2 "Constants"
+
+    p "Constants exported from vertex or fragment shaders can be overwritten via the " code "WebGLProgram" < " macro:"
+    cblock
+      cl 'program := ' ck 'new' < " " ct "WebGLProgram" < "(gl, " 
+      cl(1) cv '"./vertex-shader.tglsl"' < ", {maxIter: " cv "1000" < "}, " 
+      cl(1) cv '"./fragment-shader.tglsl"' < ', {}'
+      cl ');'
+     
+    br
+    p "In this example " code "maxIter" < " is the name of the exported constant, and it must be an " code "int" < " (otherwise a transpiler error is thrown)."

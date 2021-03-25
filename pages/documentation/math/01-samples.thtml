@@ -1,0 +1,62 @@
+import * from "templates"
+import * from "styles"
+import {articlepage} from "index.thtml"
+
+
+template sample (math) extends div super(class=mathsample)
+  cblock
+    cl $math
+
+  div
+    math($math)
+
+
+articlepage(0)
+  append head
+    style
+      div.mathsample {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: $gutter;
+        svg {
+          font-family: $mathFont;
+          font-size: 1.2em;
+        }
+        code.cblock {
+          grid-column-start: 1;
+          grid-column-end: 2;
+        }
+        div {
+          grid-column-start: 2;
+          grid-column-end: 3;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+
+  append intro
+    p "WIP: the input is a dialect of ascii math, but should probably be changed to latex"
+
+  section
+    h2 "Variables"
+    sample("x")
+    br
+    sample("xi")
+    br 
+    sample("long_word")
+    br 
+    sample("nabla^2")
+  
+  section
+    h2 "Fractions"
+    sample("a/b")
+    br
+    sample("(a)/(b)")
+    br
+    sample("(((a)/(b)))")
+  
+  section 
+    h2 "Equations"
+    sample("y=c_2*x^2 + c_1*x + c_0")
+

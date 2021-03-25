@@ -1,0 +1,230 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(4)
+  append intro
+    p "Besides many builtin functions, you can also define your own functions. All functions return a single value. " 'There are no "methods".'
+
+  section
+    h2 "User defined functions"
+    h3 "Function statements"
+    p "User defined functions are composed of semicolon separated expressions. The last expression is the return value of the function (empty functions are not allowed):"
+    cblock
+      cl ck "function" < " bgImageURI(icon, height, color) {"
+      cl(1) cm "svg-uri" < "(factory, {icon: " cm "$icon" < ", height: " cm "$height" < ", style: {"
+      cl(2) "fill: " cm "$color" < ","
+      cl(1) "}})"
+      cl "}"
+    br
+    p "This is a function statement, and is essentialy syntactic sugar for a " code "var" < " statement with a function expression rhs."
+
+    h3 "Function expressions"
+    p "Function expressions are not named, and are thus defined as follows:"
+    cblock
+      cl cm "function" < "(icon, height, color) {"
+      cl(1) cm "svg-uri" < "(factory, {icon: " cm "$icon" < ", height: " cm "$height" < ", style: {"
+      cl(2) "fill: " cm "$color" < ","
+      cl(1) "}})"
+      cl "}"
+
+  section
+    h2 "Referencing functions"
+    p "Functions are first class citizens:"
+    ul
+      li "functions can be referenced like other variables"
+      li "functions can be used as arguments"
+
+    br
+    p "For example:"
+    cblock
+      cl cm "map" < "([" cv "1.1" < "," cv "2.2" < "," cv "3.3" < "], " cm "$ceil" < ") " cc "// returns a list of rounded values"
+
+  section
+    h2 "Builtin functions"
+    table
+      thead
+        tr
+          th "Function"
+          th "Description"
+      tbody
+        tr
+          td code "abs(&lt;number&gt;)" < " or " code "abs(&lt;string&gt;)"
+          td "Return the absolute value of a number (keeping its unit), or return the absolute filepath. The transpiler searches for the file using the PWD. The file must exist."
+        tr
+          td code "caps(&lt;string&gt;)"
+          td "Smartly capitalizes the input " code "&lt;string&gt;" < " for use in titles"
+        tr
+          td code "ceil(&lt;number&gt;)"
+          td "rounded up " code "&lt;int&gt;" < " value if input is unitless, otherwise rounded up " code "&lt;float&gt;" < " with same unit as input"
+        tr
+          td code "contains(&lt;list|dict&gt;, item|key)"
+          td "returns " code "true" < " if " code "item" < " is in " code "&lt;list&gt;" < ", or if " code "key" < " is in " code "&lt;dict&gt;"
+        tr 
+          td code "cos(&lt;number&gt;)"
+          td "Cosine of unitless " code "&lt;number&gt;" < " in radians"
+        tr
+          td code "darken(&lt;color&gt;, &lt;fraction|pct&gt;)"
+          td "Darken the input color by a relative amount (fraction or percentage of 255 is subtracted from each channel, with 0 as lowest possible value)"
+
+        tr
+          td code "dict(keys &lt;list&gt;, items &lt;list&gt;)" < " or " code "dict(pairs &lt;list&gt;)"
+          td "Creates a dict mapping " code "keys" < " to " code "items" < ", or " code "pairs[i][0]" < " to " code "pairs[i][1]"
+
+        tr
+          td code "dir(path &lt;string&gt;)"
+          td "Extracts the directory part from a file path"
+        tr
+          td code "dump(&lt;any&gt;)"
+          td "Print the value of any expression as part of the transpiler terminal output. The same value is also returned."
+        tr
+          td code "error(message1 &lt;string&gt;, [message2 ...])"
+          td "Prints an error message to the transpiler terminal output, and immediately stops the transpilation."
+        tr
+          td code "filter(&lt;list&gt;, &lt;function&gt;)" < " or " code "filter(&lt;dict&gt;, keys &lt;list&gt;)"
+          td "Filters list entries based on the boolean result of test function, or filters dict entries whose keys appear in the " code "keys" < " list."
+        tr
+          td code "float(&lt;number&gt;, unit &lt;string&gt;)"
+          td "Creates a new float with a forced unit, ignoring the original unit."
+        tr
+          td code "floor(&lt;number&gt;)"
+          td "rounded down " code "&lt;int&gt;" < " value if input is unitless, otherwise rounded down " code "&lt;float&gt;" < " with same unit as input"
+        tr
+          td code "int(&lt;number&gt;)"
+          td "Truncates a number and removes its unit"
+        tr
+          td code "invert(&lt;color&gt;)"
+          td "Each color channel is recalculated as " code "new = 255 - old"
+        tr
+          td code "isbool(&lt;any&gt;)"
+          td "Boolean type test"
+        tr
+          td code "iscolor(&lt;any&gt;)"
+          td "Color type test"
+        tr
+          td code "isdict(&lt;any&gt;)"
+          td "Dict type test"
+        tr
+          td code "isfloat(&lt;any&gt;, [unit &lt;string&gt;])"
+          td "Float type test, with optional unit test"
+        tr
+          td code "isfunction(&lt;any&gt;)"
+          td "Function type test"
+        tr
+          td code "isint(&lt;any&gt;)"
+          td "Integer type test"
+        tr
+          td code "islist(&lt;any&gt;)"
+          td "List type test"
+        tr
+          td code "isnull(&lt;any&gt;)"
+          td "Null test, equivalent to " code "x==null"
+        tr
+          td code "issame(a &lt;any&gt;, b &lt;any&gt;)"
+          td "Deep equality test for values of any type. " code "==" < " differs from " code "issame" < " because it only works for primitives (or when comparing to " code "null" < "), and let's you compare integers to floats."
+        tr
+          td code "isstring(&lt;any&gt;)"
+          td "String type test"
+        tr
+          td code "istype(&lt;any&gt;, type &lt;string&gt;)"
+          td 'Type test where type can be "bool", "color", "dict", "float", "int", "list", "null", or "string"'
+        tr
+          td code "items(&lt;dict&gt;)"
+          td "Map dict to list of pairs. First entry in each pair is the key, second entry is the value."
+        tr
+          td code "join(strings &lt;list&gt;, [sep &lt;string&gt;])"
+          td "Join strings by a separator string. The separator string defaults to the empty string."
+        tr
+          td code "keys(&lt;dict&gt;)"
+          td "Map dict to list of keys."
+        tr
+          td code "len(&lt;list|dict|string&gt;)"
+          td "Return integer length of list, dict or string"
+        tr
+          td code "lighten(&lt;color&gt;, &lt;fraction|pct&gt;)"
+          td "Lighten the input color by a relative amount (fraction or percentage of 255 is added to each channel, with 255 as highest possible value)"
+        tr
+          td code "list(&lt;string&gt;)" < " or " code "list(&lt;int&gt;, &lt;any&gt;)"
+          td "Splits a string into a lists of its characters, or creates a list of given length filled a constant value"
+        tr
+          td code "lower(&lt;string&gt;)"
+          td "Lower case string"
+        tr
+          td code "map(&lt;list&gt;, fn &lt;function&gt;)"
+          td "Returns a new list with the same length as the old list, where each value has been mapped by calling " code "fn(value)"
+        tr
+          td code "max(a, b)"
+          td "Returns largest number"
+        tr
+          td code "min(a, b)"
+          td "Returns smallest number"
+        tr
+          td code "merge(a, b, [c...])"
+          td "Merge multiple dictionaries. Nested dictionaries are merged recursively where possible."
+        tr
+          td code "mix(a &lt;color&gt;, b &lt;color&gt;, f &lt;<fraction|pct>&gt;)"
+          td "Mixes two colors linearly. " code "f" < " must be a unitless number between 0 and 1, or a percentage (between 0% and 100%)"
+        tr
+          td code "pathpos(path &lt;list|string&gt;, f &lt;number&gt;)"
+          td "Calculate the position along an svg path.  " code "f" < " is between 0 and 1 or 0% and 100%. Result is a list containing the calculated " code "x" < " and " code "y" < " values."
+        tr
+          td code "px(&lt;float&gt;)"
+          td "Converts a rem float to px (and trivially px to px). Throws an error for other units. Requires " code "rem-per-px" < " to be set in your site config file or as a commandline option"
+        tr
+          td code "rad(&lt;float&gt;)"
+          td "Converts unitless number from degrees to radians"
+        tr
+          td code "rand(seed &lt;int&gt;, a &lt;number&gt;, b &lt;number&gt;)"
+          td "Generates a random number in the specified range. If both " code "a" < " and " code "b" < " are integers, then the result is an integer. Otherwise it tries to keep the unit (input units must be identical though)."
+        tr
+          td code "replace(s &lt;string&gt;, sub &lt;string&gt;, new &lt;string&gt;)"
+          td "Replace all non-overlapping occurences of " code "sub" < " with " code "new"
+        tr
+          td code "reverse(&lt;list&gt;)"
+          td "Reverse a list"
+        tr
+          td code "round(&lt;number&gt;)"
+          td "rounded to nearest " code "&lt;int&gt;" < " value if input is unitless, otherwise rounded to nearest integer and return " code "&lt;float&gt;" < " with same unit as input"
+
+        tr
+          td code "seq(n &lt;int&gt;)" < " or " code "seq(a &lt;number&gt;, [incr &lt;number&gt;], b &lt;number&gt;)"
+          td "Create a list with entries from 0 to " code "n-1" < ", or from " code "a" < " to " code "b" < " with " code "incr" < " intervals. " code "incr" < " defaults to 1."
+        tr 
+          td code "sin(&lt;number&gt;)"
+          td "Sine of unitless " code "&lt;number&gt;" < " in radians"
+        tr
+          td code "slice(&lt;list&gt; start &lt;int&gt;, [stop &lt;int&gt;])" < " or " code "slice(&lt;list, start &lt;int&gt;, [incr &lt;int&gt;], stop &lt;int&gt;)"
+          td "Extracts a sublist. " code "stop == -1" < " signifies the end of the list."
+        tr
+          td code "sort(&lt;list&gt;, [keyfn|compfn &lt;function&gt;])"
+          td "Sorts a lists. A comparison or key function is optional. A key function accepts a single argument and returns a number, which is subsequently sorted using the " code "<" < " operator. A comparison function accepts two arguments " code "a" < " and " code "b" < ", and returns true if " code "a" < " and " code "b" < " are in the correct order."
+        tr
+          td code "split(&lt;string&gt;, sep &lt;string&gt;)"
+          td "Split a string into a list of strings. If no substring matches " code "sep" < " a list with the original string as a single entry is returned."
+        tr
+          td code "sqrt(&lt;number&gt;)"
+          td "Calculate square root of number, keeping its unit."
+        tr
+          td code "str(&lt;any&gt;)"
+          td "Aggresively convert the argument into a string. A string is trivially converted into a string."
+        tr 
+          td code "tan(&lt;number&gt;)"
+          td "Tan of unitless " code "&lt;number&gt;" < " in radians"
+        tr
+          td code "uid()"
+          td "Generates unique string identifier"
+        tr
+          td code "upper(&lt;string&gt;)"
+          td "Upper case string"
+        tr
+          td code "url()" < " or " code "url(&lt;file&gt;)"
+          td "Current destination url, or destination url of " code "&lt;file&gt;"
+        tr
+          td code "values(&lt;dict&gt;)"
+          td "Map dict to list of values (i.e. not the keys)."
+        tr
+          td code "xor(a, b)"
+          td "Exclusive " em "or" < " of two boolean values."
+        tr
+          td code "year()"
+          td "Returns current year (i.e. " + $str(year()) + ") as an integer"

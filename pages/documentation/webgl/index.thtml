@@ -1,0 +1,13 @@
+export var articles = [
+  [abs("01-dynamic-indexing.thtml"), "Dynamic indexing"],
+  [abs("02-program-macro.thtml"), "WebGLProgram macro"],
+  [abs("03-mandelbrot-example.thtml"), "Mandelbrot example"],
+]
+
+export {articlepage}(
+  $articles, 
+  [url("../index.thtml") + "#html_", "html"],
+  [abs("../math/01-samples.thtml"), "Getting started (Math)"],
+  null,
+  "WebGL documentation",
+) from "../../../templates/articlepage.thtml"

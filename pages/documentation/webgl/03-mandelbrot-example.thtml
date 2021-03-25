@@ -1,0 +1,140 @@
+import * as icons from "std/icons"
+import * from "templates"
+import * from "styles"
+import {articlepage} from "index.thtml"
+
+
+articlepage(2)
+  append head 
+    style
+      div#mandelbrot {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 600px;
+        position: relative;
+        
+        #mandelbrot-replay {
+          position: absolute;
+          z-index: 10;
+          height: 3rem;
+          width: 3rem;
+          background-color: #0000;
+          top: 0;
+          right: 0;
+          background-image: $icons.bgImageURI(refresh, 3rem, $grey);
+          border: none;
+          :hover {
+            cursor: pointer;
+            background-image: $icons.bgImageURI(refresh, 3rem, lighten($grey, 20%));
+          }
+        }
+      }
+
+  append intro
+    p "WebGL is powerful enough to create a live zoom animation of the mandelbrot fractal."
+
+  section
+    h2 "Vertex shader"
+
+    p "The vertex shader code doesn't do anything special:"
+    cblock
+      cl cc "// vertex-shader.tglsl"
+      cl ck "attribute" < " " ct "vec2" < " aPos;"
+      cl ck "attribute" < " " ct "vec2" < " aDelta;"
+      cl ck "attribute" < " " ct "vec2" < " aCenter;"
+      cl
+
+      cl ck "varying highp" < " " ct "vec2" < " vDelta;"
+      cl ck "varying highp" < " " ct "vec2" < " vCenter;"
+      cl
+
+      cl ck "void" < " main() {"
+      cl(1) "vDelta = aDelta;"
+      cl(1) "vCenter = aCenter;"
+
+      cl(1) "gl_Position = " ct "vec4" < "(aPos.x, aPos.y, " cv "0.0" < ", " cv "1.0" < ");"
+      cl "}"
+    br
+    p "The vertex position is split up into a tri center and an offset part, which slightly increases the precision of the calculation."
+
+  section
+    h2 "Fragment shader"
+
+    p "This is where the magic happens:"
+    cblock
+      cl cc "// fragment-shader.tglsl"
+      cl ck "precision highp" < " " ct "float" < ";"
+      cl
+      cl ck "varying highp" < " " ct "vec2" < " vDelta;"
+      cl ck "varying highp" < " " ct "vec2" < " vCenter;"
+      cl
+      cl ck "import" < " {blackbody} " ck "from" < " " cv '"std/colors"' < ";"
+      cl
+      cl ck "const" < " " ct "int" < " maxIter = " cv "300" < ";"
+      cl
+      cl ck "export " < ct "vec2" < " nextGen(" ct "vec2" < " z, " ct "vec2" < " z2, " ct "vec2" < " c) {"
+      cl(1) ct "float" < " x = z2.x - z2.y + c.x;"
+      cl(1) ct "float" < " y = 2.0*z.x*z.y + c.y;"
+      cl(1) ck "return" < " " ct "vec2" < "(x, y);"
+      cl "}"
+      cl
+      cl ck "export " < ct "vec4" < " pickColor(" ct "float" < " iter) {"
+      cl(1) "iter = mod(iter, " cv "100.0" < ");"
+      cl(1) ck "if" < " (iter < " cv "50.0" < ") {"
+      cl(2) ck "return" < " blackbody(iter/" cv "50.0" < ");"
+      cl(1) "} " ck "else" < " {"
+      cl(2) ck "return" < " blackbody((" cv "50.0" < " - iter)/" cv "50.0" < ");"
+      cl(1) "}"
+      cl "}"
+      cl
+
+      cl ct "float" < " naive(" ct "vec2" < " c) {"
+      cl(1) ct "vec2" < " z2 = " ct "vec2" < "(" cv "0.0" < ", " cv "0.0" < ");"
+      cl(1) ct "vec2" < " z = " ct "vec2" < "(" cv "0.0" < ", " cv "0.0" < ");"
+      cl(1) ct "float" < " iterFinal = " ct "float" < "(maxIter);"
+      cl(1) ct "vec2" < " z2Final = z2;"
+      cl(1) ck "for" < "(" ct "int" < " iter=" cv "1" < "; iter < maxIter; iter++) {"
+      cl(2) ct "float" < " prev = z2.x + z2.y;"
+      cl(2) "z = nextGen(z, z2, c);"
+      cl(2) "z2 = " ct "vec2" < "(z.x*z.x, z.y*z.y);"
+      cl(2) ct "float" < " next = z2.x + z2.y;"
+      cl
+      cl(2) ck "if" < " (prev <= " cv "4.0" < " && next > " cv "4.0" < ") {"
+      cl(3) "iterFinal = " ct "float" < "(iter);"
+      cl(3) "z2Final = z2;"
+      cl(2) "}"
+      cl(1) "}"
+      cl
+      cl(1) ck "if" <" (iterFinal < float(maxIter)) {"
+      cl(2) ct "float" < " log_zn = " cv "0.5" < "*log(z2Final.x + z2Final.y);"
+      cl(2) ct "float" < " nu = log(log_zn/log(" cv "2.0" < "))/log(" cv "2.0" < ");"
+      cl(2) "iterFinal = iterFinal + " cv "1.0" < " - nu;"
+      cl(1) "}"
+      cl
+      cl(1) ck "return" < " iterFinal;"
+      cl "}"
+      cl
+      cl ck "void" < " main() {"
+      cl(1) ct "float" < " iter = naive(" ct "vec2" < "(vCenter.x + vDelta.x, vCenter.y + vDelta.y));"
+      cl(1) "gl_FragColor = pickColor(iter);"
+      cl "}"
+    br
+    p "Note how the " code "blackbody" < " function is imported from the standard library."
+
+  section
+    h2 "Javascript code"
+    p "The shaders can be imported directly into javascript with the " code "WebGLProgram" < " " a(href=url("02-program-macro.thtml")) "macro" < "."
+    br
+    p "If you are interested in the full source of this example you can have a look in the " a(href="https://github.com/computeportal/wtsuite-doc/tree/main/documentation/webgl") "github repository" < "."
+    br
+    p "We are still working in high-level library functions to make webgl easier to use."
+
+  section
+    h2 "Result"
+    p "Press the auto-(re)start button to see the animation."
+    br
+
+    div(id=mandelbrot)
+      canvas(id=mandelbrot-canvas)
+
+      button(id=mandelbrot-replay)

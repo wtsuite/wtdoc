@@ -1,0 +1,20 @@
+export var articles = [
+  [abs("01-getting-started.thtml"), "Getting started"],
+  [abs("02-differences-with-vanilla.thtml"), "Differences with vanilla"],
+  [abs("03-samples.thtml"), "Code samples"],
+  [abs("04-type-parameters.thtml"), "Type parameters"],
+  [abs("05-enum-types.thtml"), "Enum types"],
+  [abs("06-type-guards.thtml"), "Type guards"],
+  [abs("07-macros.thtml"), "Macros"],
+  [abs("08-rpc.thtml"), "RPC"],
+  [abs("09-import.thtml"), "Import"],
+  [abs("10-export.thtml"), "Export"],
+]
+
+export {articlepage}(
+  $articles,
+  [url("../index.thtml") + "#js", "js"],
+  [abs("../html/07-looping-and-branching.thtml"), "HTML documentation"],
+  [abs("../math/01-samples.thtml"), "Math documentation"],
+  "JS documentation",
+) from "../../../templates/articlepage.thtml"

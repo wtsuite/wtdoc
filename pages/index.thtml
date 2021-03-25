@@ -1,0 +1,145 @@
+import * from "templates"
+import {landingFont} from "styles"
+
+class quote of div
+
+page
+  append head
+    link(rel="preconnect", href="https://fonts/gstatic.com")
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=" + $landingFont + ":wght@300;700&display=swap")
+
+  header
+    h1 "Web transpiler suite"
+    h2 "all your html5 needs, in one place"
+    a(id=contribute, href="https://github.com/computeportal/wtsuite")
+
+  section
+    h2 "About"
+
+    quote
+      p em "wtsuite" < " is a collection of cli tools to transpile " b "css" < ", " b "html" < ", " b "svg" < ", " b "math" < ", " b "js" < " and " b "glsl"
+
+    quote
+      p b "Fast" < " and " b "familiar" < " cli. " b "No&nbsp;dependencies" < ", " b "no&nbsp;configuration"
+
+    quote
+      p "Keep things extra&nbsp;DRY with " b "cross-language imports" < " and " b "@wrap" < ", while cleanly separating concerns"
+
+    quote
+      p b "FOSS" < " for " b "Linux" < ", " b "Mac" < " and " b "Windows" 
+      br
+      br
+      a(id=get-started, href=url("documentation/html/01-getting-started.thtml")) b "Get started now"
+
+  section
+    h2 "Features"
+    p "typed javascript, minification, bundling, git-based package&nbsp;manager, client-side&nbsp;search, cached transpilation, IDE&nbsp;integrations, refactoring tools, dependency analysis, ..."
+
+  section
+    h2 "CSS sample"
+
+    cblock
+      cl "section {"
+      cl(1) "margin: " cv "4rem" < " " cm "$" < "(m := " cv "20%" < ") " cv "4rem" < " " cm "$m" < ";"
+      cl(1) "width: " cm "$" < "(" cv "100%" < " - " cv "2" < "*" cm "$m" < ");"
+      cl
+      cl(1) ".quotes-wrapper {"
+      cl(2) "display: grid;"
+      cl(2) "grid-template-columns: " cv "1fr" < " " cv "1fr" < ";"
+      cl(2) "grid-column-gap: " cv "10%" < ";"
+      cl(2) "grid-row-gap: " cv "4rem" < ";"
+      cl
+      cl(2) cm "$mobileMedia" < " {"
+      cl(3) "display: block;"
+      cl(3) "> * {"
+      cl(4) "margin-bottom: " cv "4rem" < ";"
+      cl(4) ":last-child {"
+      cl(5) "margin-bottom: " cv "0" < ";"
+      cl(4) "}"
+      cl(3) "}"
+      cl(2) "}"
+      cl(1) "}"
+      cl "}"
+
+  section
+    h2 "HTML sample"
+
+    cblock
+      cl ck "var" < " links = {"
+      cl(1) cm 'file-url' < "(" cv '"../about/index.wtt"' < "): " cv '"About"' < ','
+      cl(1) cm 'file-url' < '(' cv '"../contact/index.wtt"' < "): " cv '"Contact"' < ','
+      cl "}"
+      cl
+      cl ck "export template" < " page(title=" cv "null" < ") " ck "extends" < " html " ck "super" < "()"
+      cl(1) cs "head"
+      cl(2) ck "if" < " (" cm "$title" < " != " cv "null" < ")"
+      cl(3) cs "title" < " " cm "$title"
+      cl
+      cl(2) ck "block" < " head"
+      cl
+      cl(1) cs "body"
+      cl(2) cs "nav"
+      cl(3) cs 'a' < '(id=nav-logo, href=' cm "file-url" < '(' cv '"../landing/index.wtt"' < ')) ' cv '"LOGO"'
+      cl
+      cl(3) cs "ul" < "(id=nav-links)"
+      cl(4) ck "for" < " item " ck "in" < " " cm "items" < "(" cm "$links" < ")"
+      cl(5) cs "li"
+      cl(6) cs "a" < "(href=" cm "item" < "[" cv "0" < "]) " cm "$item" < "[" cv "1" < "]"
+      cl
+      cl(2) cs "main"
+      cl(3) ck "block" < " default"
+      cl
+      cl(2) cs "footer"
+      cl(3) cs 'p' < " " cv '"copyright "' < " + " cm "$year" < '()'
+
+  section
+    h2 "JS sample"
+
+    cblock
+      cl ck "export class" < " Vec2 {"
+      cl(1) "_x " ct "Number" < "; " cc "// class fields are private by default"
+      cl(1) "_y " ct "Number" < ";"
+      br
+      cl(1) ck "constructor" < "(x " ct "Number" < ", y " ct "Number" < ") {"
+      cl(2)   ck "this" < "._x = x;"
+      cl(2)   ck "this" < "._y = y;"
+      cl(1) "}"
+      br
+      cl(1) ck "get" < " x() " ct "Number" < " { "
+      cl(2)   ck "return this" < "._x;"
+      cl(1) "}"
+      br
+      cl(1) ck "get" < " y() " ct "Number" < " {"
+      cl(2)   ck "return this" < "._y;"
+      cl(1) "}"
+      br
+      cl(1) "length() " ct "Number" < " { " cc "// class methods are public by default"
+      cl(2)   ck "return" < " Math.sqrt(" ck "this" < "._x*" ck "this" < "._x + " ck "this" < "._y*" ck "this" < "._y);"
+      cl(1) "}"
+      br
+      cl(1) "normalize() Vec2 {"
+      cl(2)   "l := " ck "this" < ".length();"
+      cl(2)   ck "return new" < " Vec2(" ck "this" < "._x/l, " ck "this" < "._y/l);"
+      cl(1) "}"
+      cl "}"
+
+  section
+    h2 "GLSL sample"
+    cblock
+      cl cc "// mandelbrot-util.glsl"
+      cl ck "import" < " {blackbody} " ck "from" < " " cv '"std/colors"' < ";"
+      cl
+      cl ck "export " < ct "vec2" < " nextGen(" ct "vec2" < " z, " ct "vec2" < " z2, " ct "vec2" < " c) {"
+      cl(1) ct "float" < " x = z2.x - z2.y + c.x;"
+      cl(1) ct "float" < " y = " cv "2.0" < "*z.x*z.y + c.y;"
+      cl(1) ck "return" < " " ct "vec2" < "(x, y);"
+      cl "}"
+      cl
+      cl ck "export " < ct "vec4" < " pickColor(" ct "float" < " iter) {"
+      cl(1) "iter = mod(iter, " cv "100.0" < ");"
+      cl(1) ck "if" < " (iter < " cv "50.0" < ") {"
+      cl(2) ck "return" < " blackbody(iter/" cv "50.0" < ");"
+      cl(1) "} " ck "else" < " {"
+      cl(2) ck "return" < " blackbody((" cv "50.0" < " - iter)/" cv "50.0" < ");"
+      cl(1) "}"
+      cl "}"

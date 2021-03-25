@@ -1,0 +1,42 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(2)
+  section 
+    h2 "Variables"
+    cblock
+      cl ck "var" < " a " ct "Array" < "<" ct "Number" < "> = [" cv "0.0" < ", " cv "1" < ", " cv "2e0" < ", " cv "3.0e0" < "];"
+      br
+      cl cc "// shorthand for let, type is inferred as String"
+      cl 'b := ' cv '"a literal string"' < ';'
+
+  section 
+    h2 "Classes"
+    cblock
+      cl ck "export class" < " Vec2 {"
+      cl(1) "_x " ct "Number" < "; " cc "// class fields are private by default"
+      cl(1) "_y " ct "Number" < ";"
+      br
+      cl(1) ck "constructor" < "(x " ct "Number" < ", y " ct "Number" < ") {"
+      cl(2)   ck "this" < "._x = x;"
+      cl(2)   ck "this" < "._y = y;"
+      cl(1) "}"
+      br
+      cl(1) ck "get" < " x() " ct "Number" < " { "
+      cl(2)   ck "return this" < "._x;"
+      cl(1) "}"
+      br
+      cl(1) ck "get" < " y() " ct "Number" < " {"
+      cl(2)   ck "return this" < "._y;"
+      cl(1) "}"
+      br
+      cl(1) "length() " ct "Number" < " { " cc "// class methods are public by default"
+      cl(2)   ck "return" < " Math.sqrt(" ck "this" < "._x*" ck "this" < "._x + " ck "this" < "._y*" ck "this" < "._y);"
+      cl(1) "}"
+      br
+      cl(1) "normalize() Vec2 {"
+      cl(2)   "l := " ck "this" < ".length();"
+      cl(2)   ck "return new" < " Vec2(" ck "this" < "._x/l, " ck "this" < "._y/l);"
+      cl(1) "}"
+      cl "}"

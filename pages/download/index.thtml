@@ -1,0 +1,72 @@
+import * from "templates"
+
+
+var latestVersion = "0.5.2"
+
+
+docpage("Download")
+  append intro
+    p "The " em "wtsuite" < " tools can be compiled from source, or the binaries can be installed directly for MSWindow, MacOS or Linux (64bit)."
+    br
+    p "Syntax coloring and indentation is included for " em "vim" < "."
+
+  section
+    h2 "Latest binaries"
+    p "Pick the package that is appropriate for your system:"
+    ul
+      li a(href="https://sourceforge.net/projects/wtsuite/files/wtsuite_" + $latestVersion + "-linux_x86_64.tar.gz/download") "wtsuite_" + $latestVersion + "-linux_x86_64.tar.gz"
+      li a(href="https://sourceforge.net/projects/wtsuite/files/wtsuite_" + $latestVersion + "-ms_windows.zip/download") "wtsuite_" + $latestVersion + "-ms_windows.zip"
+      li a(href="https://sourceforge.net/projects/wtsuite/files/wtsuite_" + $latestVersion + "-mac_darwin.tar.gz/download") "wtsuite_" + $latestVersion + "-mac_darwin.tar.gz"
+
+    br
+    p "Once you've unpacked the binaries you must place them in your path (see details below)."
+
+    h3 "MacOS installation"
+    p "Should be similar to the linux installation, see below."
+
+    h3 "Linux installation"
+    p "Unpack the binaries into a directory included in your " code "$PATH" < ", typically " code "/usr/local/bin"
+    br
+    p "Alternatively use " code "$HOME/bin" < ":"
+    br
+    cblock
+      cl "> mkdir -p $HOME/bin"
+      cl "> export PATH=${PATH}:$HOME/bin"
+
+    h3 "MS Windows installation"
+    p "Unzip the downloaded package into a location that you are able to remember."
+    br
+    p "Look for the " b 'Environment variables' < " menu inside the " b 'System properties' < " menu of the " b 'System' < " section of the " b "Control Panel" < "."
+    br
+    p "Add the directory where you unpacked the binaries to the system variable named " b 'Path' < " (separated by a semicolon from any previous paths)."
+
+
+  section
+    h2 "Compiling from source"
+
+    p "We recommend you use a linux based environment for this."
+
+    br
+    p "The source code can be download from our " a(href="https://github.com/computeportal/wtsuite") "github repository" < "."
+    br
+    p "Running " code "make" < " in the root directory should do the trick. The resulting files are placed in the " code "build" < " directory."
+    br
+    p "Running " code "make install" < " compiles the tools and installs the binaries into " code "/usr/local/bin"
+
+  section
+    h2 "IDE plugins"
+
+    p "Only syntax coloring/indentation for " em "vim" < " is currently provided."
+    h3 "VIM"
+    p "The vim files can be downloaded " a(href="https://sourceforge.net/projects/wtsuite/files/wtsuite_" + $latestVersion + "-vim_syntax.tar.gz/download") "here" < "."
+    br
+    p "The indent files should be copied into the " code "$HOME/.vim/indent/" < " directory, the syntax coloring files should be copied into the " code "$HOME/.vim/syntax/" < " directory."
+    br
+    p "Don't forget to append the following lines to your " code "vimrc" < " file:"
+    cblock
+      cl "au BufNewFile,BufRead *.thtml set filetype=thtml"
+      cl "au BufNewFile,BufRead *.tjs&nbsp;&nbsp; set filetype=tjs"
+      cl "au BufNewFile,BufRead *.tglsl set filetype=tglsl"
+
+    br
+    p "(If you can think of better file extensions, please let us know.)"

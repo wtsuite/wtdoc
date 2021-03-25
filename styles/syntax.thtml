@@ -1,0 +1,63 @@
+import * from "config.thtml"
+
+
+export style syntax
+  code {
+    background-color: #f2f2f2;
+    padding: 0.1rem 0.2rem 0.1rem 0.2rem;
+    font-family: $monoFont;
+    line-height: 1.2rem;
+  }
+
+  code.cblock {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    > div {
+      padding: 0.5rem;
+      display: block;
+      overflow-x: auto;
+      flex-grow: 1;
+      font-family: $monoFont;
+      ::after {
+        bottom: 0;
+        left: 0;
+        content: " ";
+        top: 0;
+        width: 4px;
+        background-color: #888;
+        position: absolute;
+      }
+    }
+    .cl {
+      white-space: nowrap;
+      .indent {
+        display: inline-block;
+        content: "&nbsp;&nbsp;";
+        width: 1rem;
+      }
+    }
+    .cc {
+      color: $grey;
+    }
+    .ck {
+      color: $green;
+    }
+    .cm {
+      color: $orange;
+    }
+    .cs {
+      color: $darkBlue;
+    }
+    .ct {
+      color: $yellow;
+    }
+    .cv {
+      color: $lightBlue;
+    }
+    br:last-child {
+      display: none;
+    }
+  }

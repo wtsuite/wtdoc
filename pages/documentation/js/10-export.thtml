@@ -1,0 +1,64 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(9)
+  append intro
+    p code "export" < " (and " code "import" < ") statements are similar to those in vanilla JS, but are used to bundle everything during transpilation time. The final code bundle, interpreted by the browser or NodeJS, doesn't contain any " code "export" < " (or " code "import" < ") statements."
+    br
+    p "Default exports are not available."
+    br
+    p "Export statements must be in the top-level scope of the file."
+
+  section
+    h2 "Named export"
+    p "Top-level module declarations can be exported using the " code "export" < " keyword:"
+    cblock
+      cl ck "export var" < " x = " cv "0" < ";"
+      cl ck "export const" < " X = " cv "1" < ";"
+      cl ck "export function" < " fn(name " ct "String" < ") {"
+      cl(1) "console.log(`hello ${name}`);"
+      cl "}"
+      cl ck "export class" < " MyClass {...}"
+      cl ck "export interface" < " MyInterface {...}"
+      cl ck "export enum" < " MyEnum {...}"
+
+  section 
+    h2 "Export list"
+    p "Sometimes you want to make a variable available for export, after it has been declared. This can happen when you import a variable, extend its functionality, and then re-export it:"
+    cblock
+      cl cc "// Factory.tjs"
+      cl ck "import" < " {factory} " ck "from" < " " cv '"FactoryInternal.tjs"' < ";"
+      cl ck "import" < " " cv '"index.tjs"' < "; " cc "// side-effects fill the factory"
+      cl ck "export" < " {factory};" cc "//re-export using an export list"
+    br
+    p "Export lists can also rename the exported variables:"
+    cblock
+      cl ck "export" < " {internalName1 " ck "as" < " externalName1, ...};"
+
+  section 
+    h2 "Aggregate export"
+    p "Library modules can be created by importing parts of your API you want to expose, and then exporting them from a single file:"
+    cblock
+      cl cc "// myLibrary.tjs"
+      cl ck "import" < " {part1} " ck "from" < " " cv '"Part1.tjs"' < ";"
+      cl ck "import" < " {part2} " ck "from" < " " cv '"Part2.tjs"' < ";"
+      cl ck "import" < " {part3} " ck "from" < " " cv '"Part3.tjs"' < ";"
+      cl ck "export" < " {part1, part2, part3};"
+
+    br
+    p "Aggregate exports allow you to do this slightly more concisely:"
+    cblock
+      cl ck "export" < " {part1} " ck "from" < " " cv '"Part1.tjs"' < ";"
+      cl ck "export" < " {part2} " ck "from" < " " cv '"Part2.tjs"' < ";"
+      cl ck "export" < " {part3} " ck "from" < " " cv '"Part3.tjs"' < ";"
+    p "Variables touched by aggregate exports are not inserted in the local scope."
+    br
+    p "As with export lists, an aggregate export can rename a variable:"
+    cblock
+      cl ck "export" < " {part1 " ck "as" < " alias1} " ck "from" < " " cv '"Part1.tjs"' < ";"
+
+    br
+    p "If you are aggregating exports that were already aggregated before, it can be convenient to export everything without specifying the names:"
+    cblock
+      cl ck "export" < " * " ck "from" < " " cv '"./child-directory/index.tjs"'

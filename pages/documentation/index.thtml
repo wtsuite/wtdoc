@@ -1,0 +1,39 @@
+import * from "templates"
+
+import {articles as generalArticles} from "general/index.thtml"
+import {articles as cssArticles} from "css/index.thtml"
+import {articles as htmlArticles} from "html/index.thtml"
+import {articles as jsArticles} from "js/index.thtml"
+import {articles as mathArticles} from "math/index.thtml"
+import {articles as webglArticles} from "webgl/index.thtml"
+
+
+template articlelist(articles) extends div super(class=article-list)
+  for item in $articles
+    a(href=url($item[0])) $item[1]
+
+
+docpage(title="Documentation")
+  section
+    h2(id=general) "General"
+    articlelist($generalArticles)
+
+  section
+    h2(id=css) "CSS"
+    articlelist($cssArticles)
+
+  section
+    h2(id=html_) "HTML"
+    articlelist($htmlArticles)
+
+  section
+    h2(id=js) "JS"
+    articlelist($jsArticles)
+
+  section
+    h2(id=math) "Math"
+    articlelist($mathArticles)
+
+  section
+    h2(id=webgl) "WebGL"
+    articlelist($webglArticles)

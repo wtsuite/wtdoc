@@ -1,0 +1,86 @@
+import * as search from "std/search";
+
+
+import {baseURL} from "../pages/documentation/general/03-client-side-search.thtml" lang template;
+
+
+class Page {
+  _searchIndex search.SearchIndex;
+  _input HTMLInputElement;
+  _message HTMLElement;
+  _results HTMLElement;
+
+  constructor() {
+    this._searchIndex = new search.SearchIndex("/search-index-mdn-javascript.json");
+
+    this._input = cast(document.getElementById("example-search-input"), HTMLInputElement);
+
+    this._message = document.getElementById("example-search-message");
+
+    this._results = document.getElementById("example-search-results");
+
+    this._input.addEventListener("input", (e Event) => {
+      void this.updateResults();
+    });
+
+    this._input.value = "";
+  }
+
+  private async updateResults() {
+    query := this._input.value;
+
+    if (query.length < 1) {
+      return;
+    }
+
+    keys := search.sanitizeQuery(query);
+
+    pages := await search.searchPages(this._searchIndex, keys, false);
+
+    if (pages.length == 0) {
+      this._message.innerHTML = "";
+      this._results.innerHTML = "";
+      return;
+    }
+
+    titles := [];
+    urls := [];
+
+    for (let i of pages) {
+      p := this._searchIndex.page(i);
+
+      title := search.highlightQuery(p.title, keys);
+
+      titles.push(title);
+      urls.push(baseURL + p.url);
+    }
+
+    for (i := 0; i < titles.length; i++) {
+      link := document.createElement("a");
+
+      link.href = urls[i];
+      link.innerHTML = titles[i];
+
+      if (i < this._results.children.length) {
+        this._results.replaceChild(link, this._results.children[i]);
+      } else {
+        this._results.appendChild(link);
+      }
+    }
+
+    for (i := this._results.children.length - 1; i >= titles.length; i--) {
+      this._results.removeChild(this._results.children[i]);
+    }
+
+    if (this._message != null) {
+      msg := "Found " + titles.length.toString() + " article";
+      if (titles.length > 1) {
+        msg += "s";
+      }
+
+      this._message.innerHTML = msg;
+    }
+  }
+}
+
+void new Page();

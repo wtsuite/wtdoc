@@ -1,0 +1,121 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(2)
+  append intro
+    p "Variables in " em "wtsuite" < "'s template script are immutable, and can be of primitive type, or (nested) lists or dicts of primitive types."
+
+  section
+    h2 "Defining and referencing variables"
+    p "Variables can be defined in any scope using the " code "var" < " keyword:"
+    cblock
+      cl ck "var" < " title = " cv "'Hello world'"
+
+    br
+    p "Variables are immutable."
+    br
+    p "The " code "$" < " sign references the variable:"
+    cblock
+      cl cs "html"
+      cl(1) cs "head"
+      cl(2) cs "title " cm "$title"
+      cl(1) cs "body"
+
+  section
+    h2 "Primitives"
+
+    p em "wtsuite" < " supports many integer, float, string, color and bool primitives types:"
+    cblock
+      cl ck "var" < " boolean = " cv 'true'
+      cl ck "var" < " unitlessNumber = " cv '100'
+      cl ck "var" < " numberWithUnit = " cv '100px' < cc "// most css units are supported"
+      cl ck "var" < " string = " cv '"web transpiler suite"'
+      cl ck "var" < " altString = webTranspilerSuite"
+      cl ck "var" < " rgbColor = " cv "#b18800"
+      cl ck "var" < " rgbaColor = " cv "#b18800aa"
+      cl ck "var" < " altRGBColor = " cv "#b80"
+      cl ck "var" < " altRGBAColor = " cv "#b80a"
+    
+    br
+    p "Literal strings don't require quotes if they consist of only letters, numbers, hyphens, underscores and don't start with a number. To be able to use a hyphen as a minus sign, it must be surrounded by spaces."
+    br
+
+  section
+    h2 "Lists and dicts"
+    p "The template script has both list and dict containers, which can contain primitives or other lists and dicts."
+    cblock
+      cl ck "var" < " array = [" cm "$string" < ", " cm "$color" < "] "
+      cl ck "var" < " dict = {" cv '"display"' < ": " cv '"none"' < "}"
+      cl ck "var" < " sameDict = {display: none}"
+
+    h3 "Indexing"
+    p "When indexing the content of lists or dicts, invalid indices throw a compiler error. For example, a negative index into a list throws an error:"
+    cblock
+      cl "a := [" cv "0" < ", " cv "1" < ", " cv "2" < ", " cv "3" < "];"
+      cl "b := a[" cv "-1" < "]; " cc "// Error: index out of range"
+    br
+
+    p "Similarly, indexing into a dict, using a non-existent key throw an error:"
+    cblock
+      cl "a := {a: " cv "0" < ", b: " cv "1" < ", c: " cv "2" < ", d: " cv "3" < "};"
+      cl "b := a[e]; " cc "// Error: key not found in dict"
+    br
+    p "There are situations however where we need to know if a value exists, before using it. In order to avoid having to write checks using ifelse functions (there are no ifelse statements), we can tell the compiler to return the " code "null" < " value if an invalid index was used (see " a(href="#permissive-mode") "permissive mode" < ")."
+
+    h3 "Splicing"
+    p "Lists can be spliced by calling the splice function explicitly, or by combined a colon with zero, one or two integers (which is syntactic sugar for the explicit splice function)."
+    br
+    p "Dicts can't be spliced."
+
+  section
+    h2 "Null"
+    p "Like javascript, the template script allows using the " code "null" < " value. " code "null" < " signifies the absense of a value."
+    br
+    p "For example, when a tag attribute has a " code "null" < " value, then that attribute is not included in the final html file."
+
+    h3(id="nullish-coalescing") "Nullish coalescing operator"
+    p "Like javascript, a nullish coalescing operator " code "??" < " is available, so fallbacks for " code "null" < " can be defined concisely. The right-hand-side of " code "??" < " is evaluated and returned if the left-hand-side is " code "null" < "."
+    br
+    p "It is used as follows:"
+    cblock
+      cl "isNull := " cv "null" < ";"
+      cl "notNull := " cv "'not null'" < ";"
+      cl "b := isNull ?? notNull; " cc "// b == 'not null'"
+      cl "c := notNull ?? isNull; " cc "// c == 'not null'"
+
+    br
+    p "Note that " code "a??b" < " is equivalent to:"
+    cblock 
+      cl "(a==" cv "null" < ")?b:a"
+
+    h3(id="if-not-null-then") "If-not-null-then operator"
+    p "The if-not-null-then operator " code "!!" < " is the dual of " code "??" < ". The right-hand-side of " code "!!" < " is evaluated and returned if the left-hand-side is not " code "null" < "."
+    br
+    p "It is used as follows:"
+    cblock
+      cl "isNull := " cv "null" < ";"
+      cl "notNull := " cv "'not null'" < ";"
+      cl "b := isNull !! notNull; " cc "// b == null"
+      cl "c := notNull ?? isNull; " cc "// c == null"
+
+    br
+    p "Note that " code "a!!b" < " is equivalent to:"
+    cblock 
+      cl "(a!=null)?b:a"
+    br
+    p "The " code "!!" < " operator has much higher precedence than the " code "??" < " operator."
+
+    h3(id=permissive-mode) "Permissive mode"
+    p "Evaluations in a file scope are set to " em "permissive" < " mode by including the " code "permissive" < " keyword at the top of the file."
+    br
+    p "Permissive mode has a cascade of consequences:"
+    ul
+      li "Indexing using invalid keys/indices, returns " code "null" < " (the types of the keys/indices still need to be string/int though)"
+      li "Indexing using " code "null" < ", returns " code "null"
+      li "Indexing into " code "null" < ", using a string, an int, or another " code "null" < ", returns " code "null"
+      li "Adding " code "null" < " to an int, returns that int (null acts as 0, other math operations throw an error though)"
+      li "Adding " code "null" < " to a string, returns that string (null acts as empty string)"
+      li "Adding " code "null" < " to a dict, returns that dict (null acts as empty dict)"
+      li "Adding " code "null" < " to a list, returns that list (null acts as empty list)"
+      li "Adding " code "null" < " to another " code "null" < ", returns " code "null"

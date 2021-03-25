@@ -1,0 +1,44 @@
+import * from "templates"
+import {modules as stdModules} from "./std/index.thtml"
+
+
+template packagetable extends table super(class=package)
+
+
+template stdrow(name, tech, description) extends tr super()
+  td 
+    var i = find($stdModules, function(item) {
+      (item[2] == $name)
+    })
+
+    if ($i != null)
+      a(href=url(stdModules[$i][0])) $name
+    else
+      $name
+  td 
+    $tech
+  td 
+    $description
+
+
+docpage("Packages")
+  append intro
+    p "More information about importing and exporting packages can be found " a(href=url("../documentation/general/02-package-management.thtml")) "here" < "."
+
+  section
+    h2(id=std) "std"
+    p code "github.com/computeportal/wtlib"
+    br
+    p "This package is still very experimental. Ideas and contributions are welcome."
+    br
+
+    packagetable
+      thead
+        tr th "Module" < th "Technologies" < th "Description"
+      tbody
+        stdrow("colors", "glsl", "Color palettes")
+        stdrow("easing", "js", "Common easing functions")
+        stdrow("icons", "html, css", "Material design icons")
+        stdrow("layout", "css", "Flexbox and grid utilties")
+        stdrow("linalg", "js", "Common vector and tensor types, and many other algebra related primitives")
+        stdrow("ux", "html, js", "Widgets (carousel, etc.)")

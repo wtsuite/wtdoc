@@ -1,0 +1,83 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(3)
+  append intro
+    p "Some built-in types require parameters to be completely typed. Similarly to java and c++, angled brackets are used for type parameters."
+
+  section 
+    h2 "Array"
+    p "An array takes a single optional type parameter, which can itself be an array:"
+    cblock
+      cl ck 'var' < ' x ' ct 'Array' < '<' ct 'Array' < '<' ct 'Number' < '>> = [[' cv '0.0' < ', ' cv '1.0' < '], [' cv '2.0' < ', ' cv '3.0' < ']]'
+      cl
+      cl 'x[' cv '0' < '][' cv '0' < '] = ' cv '10' < '; ' cc '// ok'
+      cl 'x[' cv '0' < '] = ' cv '10' < '; ' cc '// error'
+    br
+    p "An array without a type parameter can contain any type (i.e. falls back to " code "Array&lt;any&gt;" < ")."
+
+  section
+    h2 "Set"
+    p "Similar to an array, a set takes a single optional type parameter (which can itself be a set):"
+
+    cblock
+      cl ck 'var' < ' s ' ct 'Set' < '<' ct 'Number' < '> = ' ck 'new' < ' ' ct 'Set' < '();'
+      cl 
+      cl 'x.add(' cv '10' < '); ' cc '// ok'
+      cl 'x.add(' cv 'false' < '); ' cc '// error'
+
+  section
+    h2 "Map"
+    p "A map takes two type parameters:"
+    cblock
+      cl ck 'var' < ' m ' ct 'Map' < '<' ct 'Int' < ', ' ct 'String' < '> = ' ck 'new' < ' ' ct 'Map' < '();'
+      cl 
+      cl 'm.set(' cv '0' < ', ' cv '"first entry"' < '); ' cc '// ok'
+      cl 'm.set(' cv '"first entry"' < ', ' cv '0' < '); ' cc '// error'
+
+  section 
+    h2 "Object"
+    p "Unlike vanilla JS the " code "Object" < " class is not considered to be the parent class of nearly every instance. Instead it is solely used as a dict-like container type, mapping string keys to arbitrary values." 
+    br
+    p "Dict-like type parameters are used to specify the types of these values:"
+    cblock
+      cl ck 'var' < ' obj ' ct 'Object' < '&lt;key1: ' ct 'String' < ', key2: ' ct 'Array' < '&lt;' ct 'String' < '>> = {'
+      cl(1) 'key1: ' cv '"value"' < ','
+      cl(1) 'key2: [' cv '"a"' < ', ' cv '"b"' < ', ' cv '"c"' < '],'
+      cl '}'
+    br
+    p "If the " code "Object" < " entry names are not known, but only the common value type, then a single unnamed type parameter can be used for the value type:"
+    cblock
+      cl ck 'var' < ' obj ' ct 'Object' < '&lt;' ct 'String' < '&gt; = {};'
+      cl 'obj[' cv '"key1"' < '] = ' cv '"value"' < '; ' cc "// ok"
+      cl 'obj[' cv '"key2"' < '] = [' cv '"a"' < ', ' cv '"b"' < ', ' cv '"c"' < ']; ' cc "// Error: expected String, got Array&lt;String&gt;"
+    br
+    p "An " code "Object" < " without type parameters falls back to " code "Object&lt;any&gt;" < "."
+
+  section
+    h2 "Tuple"
+    p "Tuples are fixed length arrays. Each tuple entry can have a different type. Tuple type parameters are not optional, and at least 2 must be specified."
+    cblock
+      cl ck "var" < ' pair ' ct 'Tuple' < '&lt;' ct 'String' < ', ' ct 'Object' < ', ' ct 'Int' < '&gt; = ' ck 'new' < ' ' ct 'Tuple' < '(' cv '"name"' < ', {}, ' cv '0' < ');'
+    br
+    p "When looping over a " code "Map&lt;KeyType, ValueType&gt;" < " using " code "for (let x of ...)" < ", the type of " code "x" < " is " code "Tuple&lt;KeyType,&nbsp;ValueType&gt;" < "."
+    
+  section
+    h2 "Promise&lt;ResolveType&gt;"
+    p "ResolveType can be void."
+
+  section
+    h2 "Event&lt;TargetType&gt;"
+    p "TargetType is typically HTMLElement."
+
+  section 
+    h2 "IDBRequest&lt;ResultType&gt;"
+
+  section 
+    h2 "function&lt;ArgType1, ..., ReturnType&gt;"
+    p "ReturnType can be " code "void" < "."
+
+  section
+    h2 "class&lt;ArgType1, ..., InstanceType&gt;"
+    p "The ArgTypes are the arguments of the constructor. The InstanceType is a class or an interface."

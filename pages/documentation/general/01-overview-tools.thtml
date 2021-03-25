@@ -1,0 +1,82 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(0)
+  append intro
+    p "This page summarizes the command-line transpiler tools included in " em "wtsuite" < "."
+
+  section 
+    h2 "wt-site"
+    p code "wt-site" < " builds an entire static website using a json config file as input."
+    br
+    p "Usage:"
+    cblock
+      cl "> wt-site site.json . --auto-link"
+    br
+    p "An example config file can be found " a(href="site.json") "here" < "."
+
+  section 
+    h2 "wt-search-index"
+    p code "wt-search-index" < " indexes pages mentioned in the site config file. Additional settings can be used to refine the indexation. The index is stored in a json file, which can be used by a builtin javascript class to provide client-side search."
+    br
+    p "Usage:"
+    cblock
+      cl "> wt-search-index site.json search-index.json --auto-link"
+
+  section 
+    h2 "wt-template"
+    p code "wt-template" < " transpiles a single template file, and produces a single html file, with all styles and scripts included in the html file. This is the easiest way to get started with the template engine."
+    br
+    p "Usage:"
+    cblock
+      cl "> wt-template index.wtt -o index.html --auto-link"
+    br
+    p "Once you start creating websites with many pages, then consider using the " code "wt-site" < " tool instead."
+
+  section 
+    h2 "wt-template-syntax-tree"
+    p code "wt-template-syntax-tree" < " dumps the syntax tree of template files. This is used by " em "wtsuite" < " developers to debug their modifications of the parsers."
+
+  section 
+    h2 "wt-script"
+    p code "wt-script" < " transpiles and bundles typed javascript files. It needs an entry point to get started (other files are found using import statements)."
+    br
+    p "Usage:"
+    cblock
+      cl "> wt-script main.wts -o main.js --target nodejs --executable"
+
+  section
+    h2 "wt-script-grapher"
+    p code "wt-script-grapher" < " creates " a(href="https://graphviz.org") "graphviz" < " dot files representing the structure of your " em "wtsuite" < " script programs. Useful when analyzing larger projects."
+
+  section
+    h2 "wt-script-refactor"
+    p code "wt-script-refactor" < " renames script classes and packages. Related file names are also renamed. This is safer than using search-and-replace. Comments are left untouched."
+
+  section
+    h2 "wt-script-syntax-tree"
+    p code "wt-script-syntax-tree" < " dumps the syntax tree of script files. This is used by " em "wtsuite" < " developers to debug their modifications of the parsers."
+
+  section
+    h2 "wt-svg-minify"
+    p code "wt-svg-minify" < " is used to minify svg files created by inkscape."
+
+  section
+    h2 "wt-glsl"
+    p code "wt-glsl" < " transpiles and bundles shader files. It needs an entry point to get started (other files are found using import statements)."
+    br
+    p "Usage:"
+    cblock
+      cl "> wt-glsl main.glsl -o main.shader --target fragment"
+
+  section
+    h2 "wt-glsl-syntax-tree"
+    p code "wt-glsl-syntax-tree" < " dumps the syntax tree of shader files. This is used by " em "wtsuite" < " developers to debug their modifications of the parsers."
+
+  section
+    h2 "wt-style"
+    p  code "wt-style" < " transpiles a template script file into a css file. The input file must have an exported style variable called " code "main" < "."
+    p "Usage:"
+    cblock
+      cl "> wt-style ./style/main.wtt -o ./style.css"

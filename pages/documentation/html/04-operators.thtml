@@ -1,0 +1,94 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(3)
+  append intro
+    p "An overview of the operators the template script language."
+    br
+    p "Operators can be used in conventionaly manner, or via their internal function names."
+    br
+
+    table
+      thead
+        tr
+          th "Operator"
+          th "Description"
+          th "Equivalent function"
+      tbody
+        tr
+          td "+"
+          td "Add numbers, join strings, concatenate lists, or merge dicts."
+          td code "add(a, b)"
+        tr
+          td "&&"
+          td "Shortcircuit evaluation of two boolean expression."
+          td code "and(a, b)"
+        tr
+          td "/"
+          td "Divides two numbers. Both numbers must have the same units, or the denominator must be unitless. The result is not truncated."
+          td code "div(a, b)"
+        tr
+          td "=="
+          td "Equality test for primitives. Can also be used to compare any to null. " code "issame" < " differs from " code "eq" < " because it nevers throws a type error, and comparing an integer to a float always returns false."
+          td code "eq(a, b)"
+        tr
+          td ">="
+          td "Input numbers must have same units, or both be unitless"
+          td code "ge(a, b)"
+        tr
+          td "[]"
+          td "Indexing operator"
+          td code "get(container, key)"
+        tr
+          td ">"
+          td "Input numbers must have same units, or both be unitless"
+          td code "gt(a, b)"
+        tr
+          td "cond ? a : b"
+          td "If " code "$cond==true" < " then " code "a" < " is evaluated and returned, otherwise " code "b" < " is evaluated and returned."
+          td code "ifelse(cond, a, [second-cond], b, [...])"
+        tr
+          td "<="
+          td "Input numbers must have same units, or both be unitless"
+          td code "le(a, b)"
+        tr
+          td "<"
+          td "Input numbers must have same units, or both be unitless"
+          td code "lt(a, b)"
+        tr
+          td "%"
+          td "Input numbers must have same units, or rhs must be unitless."
+          td code "mod(a, b)"
+        tr
+          td "*"
+          td "Multiples two numbers. The rhs number must be unitless."
+          td code "mul(a, b)"
+        tr
+          td "!="
+          td "Not equals for primitives. Can also be used to compare any to null"
+          td code "ne(a, b)"
+        tr
+          td "Unary -"
+          td "Negate"
+          td code "neg(a)"
+        tr
+          td "!"
+          td "Not"
+          td code "not(a)"
+        tr
+          td "-"
+          td "Subtract two numbers. Must have same units. The " code "-" < " must be surrounded by spaces."
+          td code "sub(a, b)"
+        tr
+          td "||"
+          td "Shortcircuit boolean or"
+          td code "or(a, b)"
+        tr
+          td "!!"
+          td "If-not-null-then operator, " a(href=url("03-variables.thtml") + "#if-not-null-then") "more information"
+          td "Syntactic sugar for " code "ifelse(a!=null, b, a)"
+        tr
+          td "??"
+          td "Nullish coalescing operator, " a(href=url("03-variables.thtml") + "#nullish-coalescing") "more information"
+          td "Syntactic sugor for " code "ifelse(a==null, b, a)"

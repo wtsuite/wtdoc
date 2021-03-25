@@ -1,0 +1,27 @@
+attribute vec2 aPos;
+attribute vec2 aDelta;
+attribute vec2 aCenter;
+//attribute float aN;
+//attribute vec2 aZ;
+//attribute vec2 aA;
+//attribute vec2 aB;
+//attribute vec2 aC;
+
+varying highp vec2 vDelta;
+//varying mediump float vN;
+varying highp vec2 vCenter;
+//varying highp vec2 vA;
+//varying highp vec2 vB;
+//varying highp vec2 vC;
+
+void main() {
+  vDelta = aDelta;
+  vCenter = aCenter;
+  //vN = aN;
+  //vZ = aZ;
+  //vA = aA;
+  //vB = aB;
+  //vC = aC;
+
+  gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);
+}

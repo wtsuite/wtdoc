@@ -1,0 +1,70 @@
+import * from "templates"
+import {articlepage} from "index.thtml"
+
+
+articlepage(8)
+  append intro
+    p code "import" < " (and " code "export" < ") statements are similar to those in vanilla JS, but are used to bundle everything during transpilation time. The final code bundle, interpreted by the browser or NodeJS, doesn't contain any " code "import" < " (or " code "export" < ") statements. There is also no notion of " em 'modules' < " in the final code bundle, but the dynamic " code "import()" < " function can still be used (returning " code "Promise&lt;any&gt;" < ")."
+    br
+    p "Default imports/exports are not available."
+    br
+    p "Import statements must be in the top-level scope of the file. They don't necessarily need to appear at the top of the file though (eg. if you don't want the import to be available for the entire scope of the file)."
+
+  section
+    h2 "Namespace-like import"
+    p "The most convenient way of importing variables is by using a namespace-like wrapper variable:"
+    cblock
+      cl ck "import" < " * " ck "as" < " namespace " ck "from" < " " cv '"module-path"' < ';'
+    p "This statement imports everything that is exported by " code '"module-path"' < ". The imported variables can then be accessed as members of " code 'namespace' < ":"
+    cblock
+      cl "console.log(namespace.export1);"
+    br
+    p "It is an error to reference " code "namespace" < " directly (and nested namespaces etc.):"
+    cblock
+      cl "console.log(namespace); " cc "// Error"
+
+
+  section 
+    h2 "Named import"
+    p "Named variables can be imported directly from other files using the following syntax:"
+    cblock
+      cl ck "import" < " {export1} " ck "from" < " " cv '"module-path"' < ";"
+    br
+    p "Multiple variables can be imported at once:"
+    cblock
+      cl ck "import" < " {export1, export2, ...} " ck "from" < " " cv '"module-path"' < ";"
+    br
+
+    p "Named imported variables can be given new names:"
+    cblock
+      cl ck "import" < " {export1 " ck "as" < " alias1} " ck "from" < " " cv '"module-path"' < ";"
+    p "The variable named " code "export1" < " in " code '"module-path"' < " is henceforth named " code "alias1" < "."
+
+    br
+    p "When importing multiple variables directly, any number of them can be aliased:"
+    cblock
+      cl ck "import" < " {export1, export2 " ck "as" < " alias2, ...} " ck "from" < " " cv '"module-path"' < ";"
+    br
+    p "Imports must of course themselves be exported explicitly by the specified module."
+
+
+  section
+    h2 "NodeJS require"
+    p "The NodeJS " code "require()" < " function returns values of " code "any" < " type because the filepath argument's value isn't necessarily known at compile time."
+    br
+    p "To be able to benefit from the name- and type-resolution of the transpiler you can use an " code "import" < " statement instead:" 
+    cblock
+      cl ck "import" < " * " ck "as" < " fs " ck "from" < " " cv '"fs"' < ";"
+
+    br
+    p "For builtin NodeJS modules this is transpiled into:"
+    cblock
+      cl "const fs = require('fs');"
+
+
+  section
+    h2 "Empty import"
+    p "A module can also be imported just for its side-effects:"
+    cblock
+      cl ck "import" < " " cv '"module-path"' < ";"
+    p "This assures that the code of that module is included in the final code bundle, and that no new variables are inserted in the current scope."
