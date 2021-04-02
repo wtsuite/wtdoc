@@ -1,8 +1,8 @@
-export var modules = [
+export const modules = [
   [abs("01-icons.thtml"), "html", "icons"],
 ]
 
-var articles = map($modules, function(item) {
+const articles = map($modules, function(item) {
   [item[0], item[2]]
 })
 

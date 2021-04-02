@@ -3,13 +3,15 @@ import * as layout from "std/layout"
 import * from "config.thtml"
 
 
+const m = 20%
+
 style landing-centering 
   {
-    margin: 2rem $(m := 20%) 2rem $m;
+    margin: 2rem $m 2rem $m;
     width: $(100% - 2*$m);
     $normalMedia {
       width: calc(100% - 2rem);
-      $centering;
+      $centering(null, $maxPageWidth);
     }
     $mobileMedia {
       margin-left: 0;

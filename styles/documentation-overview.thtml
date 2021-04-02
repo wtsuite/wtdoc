@@ -1,5 +1,6 @@
 import * from "config.thtml"
 
+const sectionWidth = ($maxPageWidth - 2*$gutter)/6.0
 
 export style main
   @wrap-siblings article > section {
@@ -46,10 +47,10 @@ export style main
       flex-direction: row;
       justify-content: flex-start;
       box-sizing: border-box;
-      width: $str(100%/4.0);
+      width: $(100%/4.0);
 
-      @media only screen and (max-width: $str($maxPageWidth/1.5)) {
-        width: $str(100%/2.0);
+      @media only screen and (max-width: $($maxPageWidth/1.5)) {
+        width: $(100%/2.0);
       }
       $mobileMedia {
         width: 100%;
@@ -61,8 +62,8 @@ export style main
     }
 
     section {
-      min-width: $str(w := ($maxPageWidth - 2*$gutter)/6.0);
-      max-width: $w;
+      min-width: $sectionWidth;
+      max-width: $sectionWidth;
       margin-bottom: 0;
     }
     

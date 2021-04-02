@@ -7,15 +7,15 @@ function findPages() {
     ]))
   }), 
   function(f) {
-    src := $f;
-    dst := noext(rel($f, "./pages")) + ".html";
+    src = $f;
+    dst = noext(rel($f, "./pages")) + ".html";
     [$dst, $src];
   }))
 }
 
-var pages = findPages()
+const pages = findPages()
 
-export var main = {
+export const main = {
   pages: $pages,
   files: {
     "/favicon.png": "./art/favicon.png",

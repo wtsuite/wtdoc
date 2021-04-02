@@ -1,4 +1,4 @@
-export var articles = [
+export const articles = [
   [abs("01-samples.thtml"), "Math samples"],
 ]
 

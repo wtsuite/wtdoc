@@ -27,7 +27,7 @@ export template docpage(
   header
     if $breadcrumb != null
       div(id=breadcrumb)
-        var n = len($breadcrumb)
+        const n = len($breadcrumb)
         for i, v in items($breadcrumb)
           a(href=v[0]) $v[1]
 

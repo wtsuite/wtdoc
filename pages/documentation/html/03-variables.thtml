@@ -4,13 +4,13 @@ import {articlepage} from "index.thtml"
 
 articlepage(2)
   append intro
-    p "Variables in " em "wtsuite" < "'s template script are immutable, and can be of primitive type, or (nested) lists or dicts of primitive types."
+    p "Variables in " em "wtsuite" < "'s template script are immutable, and can be of primitive type, or (nested) lists or dicts of primitive types. Due to immutability the " code "const" < " keyword is actually used."
 
   section
     h2 "Defining and referencing variables"
-    p "Variables can be defined in any scope using the " code "var" < " keyword:"
+    p "Variables can be defined in any scope using the " code "const" < " keyword:"
     cblock
-      cl ck "var" < " title = " cv "'Hello world'"
+      cl ck "const" < " title = " cv "'Hello world'"
 
     br
     p "Variables are immutable."
@@ -27,15 +27,15 @@ articlepage(2)
 
     p em "wtsuite" < " supports many integer, float, string, color and bool primitives types:"
     cblock
-      cl ck "var" < " boolean = " cv 'true'
-      cl ck "var" < " unitlessNumber = " cv '100'
-      cl ck "var" < " numberWithUnit = " cv '100px' < cc "// most css units are supported"
-      cl ck "var" < " string = " cv '"web transpiler suite"'
-      cl ck "var" < " altString = webTranspilerSuite"
-      cl ck "var" < " rgbColor = " cv "#b18800"
-      cl ck "var" < " rgbaColor = " cv "#b18800aa"
-      cl ck "var" < " altRGBColor = " cv "#b80"
-      cl ck "var" < " altRGBAColor = " cv "#b80a"
+      cl ck "const" < " boolean = " cv 'true'
+      cl ck "const" < " unitlessNumber = " cv '100'
+      cl ck "const" < " numberWithUnit = " cv '100px' < cc "// most css units are supported"
+      cl ck "const" < " string = " cv '"web transpiler suite"'
+      cl ck "const" < " altString = webTranspilerSuite"
+      cl ck "const" < " rgbColor = " cv "#b18800"
+      cl ck "const" < " rgbaColor = " cv "#b18800aa"
+      cl ck "const" < " altRGBColor = " cv "#b80"
+      cl ck "const" < " altRGBAColor = " cv "#b80a"
     
     br
     p "Literal strings don't require quotes if they consist of only letters, numbers, hyphens, underscores and don't start with a number. To be able to use a hyphen as a minus sign, it must be surrounded by spaces."
@@ -45,21 +45,21 @@ articlepage(2)
     h2 "Lists and dicts"
     p "The template script has both list and dict containers, which can contain primitives or other lists and dicts."
     cblock
-      cl ck "var" < " array = [" cm "$string" < ", " cm "$color" < "] "
-      cl ck "var" < " dict = {" cv '"display"' < ": " cv '"none"' < "}"
-      cl ck "var" < " sameDict = {display: none}"
+      cl ck "const" < " array = [" cm "$string" < ", " cm "$color" < "] "
+      cl ck "const" < " dict = {" cv '"display"' < ": " cv '"none"' < "}"
+      cl ck "const" < " sameDict = {display: none}"
 
     h3 "Indexing"
     p "When indexing the content of lists or dicts, invalid indices throw a compiler error. For example, a negative index into a list throws an error:"
     cblock
-      cl "a := [" cv "0" < ", " cv "1" < ", " cv "2" < ", " cv "3" < "];"
-      cl "b := a[" cv "-1" < "]; " cc "// Error: index out of range"
+      cl ck "const" < " a = [" cv "0" < ", " cv "1" < ", " cv "2" < ", " cv "3" < "];"
+      cl ck "const" < " b = a[" cv "-1" < "]; " cc "// Error: index out of range"
     br
 
     p "Similarly, indexing into a dict, using a non-existent key throw an error:"
     cblock
-      cl "a := {a: " cv "0" < ", b: " cv "1" < ", c: " cv "2" < ", d: " cv "3" < "};"
-      cl "b := a[e]; " cc "// Error: key not found in dict"
+      cl ck "const" < " a = {a: " cv "0" < ", b: " cv "1" < ", c: " cv "2" < ", d: " cv "3" < "};"
+      cl ck "const" < " b = a[e]; " cc "// Error: key not found in dict"
     br
     p "There are situations however where we need to know if a value exists, before using it. In order to avoid having to write checks using ifelse functions (there are no ifelse statements), we can tell the compiler to return the " code "null" < " value if an invalid index was used (see " a(href="#permissive-mode") "permissive mode" < ")."
 
@@ -79,10 +79,10 @@ articlepage(2)
     br
     p "It is used as follows:"
     cblock
-      cl "isNull := " cv "null" < ";"
-      cl "notNull := " cv "'not null'" < ";"
-      cl "b := isNull ?? notNull; " cc "// b == 'not null'"
-      cl "c := notNull ?? isNull; " cc "// c == 'not null'"
+      cl ck "const" < " isNull = " cv "null" < ";"
+      cl ck "const" < " notNull = " cv "'not null'" < ";"
+      cl ck "const" < " b = isNull ?? notNull; " cc "// b == 'not null'"
+      cl ck "const" < " c = notNull ?? isNull; " cc "// c == 'not null'"
 
     br
     p "Note that " code "a??b" < " is equivalent to:"
@@ -94,10 +94,10 @@ articlepage(2)
     br
     p "It is used as follows:"
     cblock
-      cl "isNull := " cv "null" < ";"
-      cl "notNull := " cv "'not null'" < ";"
-      cl "b := isNull !! notNull; " cc "// b == null"
-      cl "c := notNull ?? isNull; " cc "// c == null"
+      cl ck "const" < " isNull = " cv "null" < ";"
+      cl ck "const" < " notNull = " cv "'not null'" < ";"
+      cl ck "const" < " b = isNull !! notNull; " cc "// b == null"
+      cl ck "const" < " c = notNull ?? isNull; " cc "// c == null"
 
     br
     p "Note that " code "a!!b" < " is equivalent to:"

@@ -1,7 +1,7 @@
 import * from "config.thtml"
 
 
-export style page
+export style page(minWidth=null, maxWidth=null)
   * {
     margin: 0;
     padding: 0;
@@ -20,7 +20,7 @@ export style page
     position: relative;
     color: $darkText;
     flex-direction: column;
-    font-family: sans;
+    font-family: $sansFont;
     main { 
       counter-reset: h2-counter;
       display: flex;
@@ -45,6 +45,6 @@ export style page
   }
 
   article {
-    $centering;
+    $centering($minWidth, $maxWidth);
     width: calc(100% - $str(2*$gutter));
   }

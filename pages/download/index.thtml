@@ -1,7 +1,7 @@
 import * from "templates"
 
 
-var latestVersion = "0.5.2"
+const latestVersion = "0.5.2"
 
 
 docpage("Download")

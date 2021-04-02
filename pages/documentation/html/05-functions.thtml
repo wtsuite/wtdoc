@@ -4,7 +4,7 @@ import {articlepage} from "index.thtml"
 
 articlepage(4)
   append intro
-    p "Besides many builtin functions, you can also define your own functions. All functions return a single value. " 'There are no "methods".'
+    p "Besides many builtin functions, you can also define your own functions. Functions can return multiple values. " 'There are no "methods".'
 
   section
     h2 "User defined functions"
@@ -17,16 +17,33 @@ articlepage(4)
       cl(1) "}})"
       cl "}"
     br
-    p "This is a function statement, and is essentialy syntactic sugar for a " code "var" < " statement with a function expression rhs."
+    p "This is a function statement, and is essentialy syntactic sugar for a " code "const" < " statement with a function expression rhs."
 
     h3 "Function expressions"
-    p "Function expressions are not named, and are thus defined as follows:"
+    p "Function expressions are not named, and are written as follows:"
     cblock
       cl cm "function" < "(icon, height, color) {"
       cl(1) cm "svg-uri" < "(factory, {icon: " cm "$icon" < ", height: " cm "$height" < ", style: {"
       cl(2) "fill: " cm "$color" < ","
       cl(1) "}})"
       cl "}"
+
+    br
+    p "Alternatively you can use the arrow syntax (similar to js):"
+    cblock
+      cl "(icon, height, color) => {"
+      cl(1) cm "svg-uri" < "(factory, {icon: " cm "$icon" < ", height: " cm "$height" < ", style: {"
+      cl(2) "fill: " cm "$color" < ","
+      cl(1) "}})"
+      cl "}"
+
+    br
+    p "The parenthesis can be omitted if the arrow function has one argument. The braces can be omitted if the arrow function has one expression (and returns only one value)."
+
+    h3 "Multiple return values"
+    p "The last expression of the function body can return multiple values by separating those values by comma's:"
+    cblock
+      cl ck "function" < " rectAreaAndCircumference(w, h) {" cm "$w" < "*" cm "$h" < ", " cv "2" < "*" cm "$w" < " + " cv "2" < "*" cm "$h" < "}"
 
   section
     h2 "Referencing functions"

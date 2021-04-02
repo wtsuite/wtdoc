@@ -1,19 +1,9 @@
 import "std/stats";
+import {Hamburger} from "std/ux";
 
 
 function registerHamburgerMenu() {
-  let c=document.getElementById('nav-links');
-  let b=document.getElementById('hamburger-menu-button');
-
-  b.addEventListener('click', ()=>{
-    if(b.getAttribute('selected') == null){
-      c.setAttribute('show','');
-      b.setAttribute('selected','');
-    }else{
-      c.removeAttribute('show');
-      b.removeAttribute('selected');
-    }
-  });
+  void new Hamburger("nav-links", "hamburger-menu-button");
 }
 
 registerHamburgerMenu();

@@ -7,13 +7,14 @@ import {table} from "table.thtml"
 import {syntax} from "syntax.thtml"
 import {footer} from "footer.thtml"
 
+import {maxPageWidth} from "config.thtml"
 
-export style main 
-  $page;
-  $nav; 
-  $header; 
+export style main(minWidth=null, maxWidth=$maxPageWidth)
+  $page($minWidth, $maxWidth);
+  $nav($minWidth, $maxWidth); 
+  $header($minWidth, $maxWidth); 
   $text;
   $list;
   $table;
   $syntax; 
-  $footer; 
+  $footer($minWidth, $maxWidth); 

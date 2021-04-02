@@ -3,11 +3,11 @@ import * as layout from "std/layout"
 import * from "config.thtml"
 
 
-var prevNextHeight = 1.5rem
-var subtitleHeight = 1.3rem
-var jumpIconSize   = $subtitleHeight
+const prevNextHeight = 1.5rem
+const subtitleHeight = 1.3rem
+const jumpIconSize   = $subtitleHeight
 
-export style header
+export style header(minWidth=null, maxWidth=null)
   #breadcrumb {
     > * {
       display: inline-block;
@@ -15,7 +15,7 @@ export style header
   }
 
   header {
-    $centering;
+    $centering($minWidth, $maxWidth);
     width: calc(100% - $str(2*$gutter));
     margin-bottom: $str(2*$gutter);
 
@@ -106,6 +106,6 @@ export style header
 
   #prev-next-bottom {
     margin-top: $gutter;
-    $centering;
+    $centering($minWidth, $maxWidth);
     width: calc(100% - $str(2*$gutter));
   }

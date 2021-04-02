@@ -1,9 +1,9 @@
 import {favicon} from "favicon.thtml"
 import {logo} from "logo.thtml"
 
-var defaultDescription = "wtsuite, all your html5 needs in one place. wtsuite is collection of transpilers for css, html, svg, math, js and glsl. Free and open source."
+const defaultDescription = "wtsuite, all your html5 needs in one place. wtsuite is collection of transpilers for css, html, svg, math, js and glsl. Free and open source."
 
-var links = {
+const links = {
   url("../pages/documentation/index.thtml"): "Documentation",
   url("../pages/packages/index.thtml"): "Packages",
   url("../pages/services/index.thtml"): "Services",

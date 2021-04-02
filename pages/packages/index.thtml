@@ -7,7 +7,7 @@ template packagetable extends table super(class=package)
 
 template stdrow(name, tech, description) extends tr super()
   td 
-    var i = find($stdModules, function(item) {
+    const i = find($stdModules, function(item) {
       (item[2] == $name)
     })
 

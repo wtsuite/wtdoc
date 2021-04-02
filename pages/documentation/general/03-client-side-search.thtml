@@ -3,7 +3,7 @@ import * from "templates"
 import {articlepage} from "index.thtml"
 
 
-export var baseURL = ("https://developer.mozilla.org/en-US/docs/Web/JavaScript")
+export const baseURL = ("https://developer.mozilla.org/en-US/docs/Web/JavaScript")
 
 
 articlepage(2)

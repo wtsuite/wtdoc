@@ -3,12 +3,10 @@ import * from "config.thtml"
 import {main} from "main.thtml"
 
 
-export style app 
-  $main;
+export style app(minWidth=null, maxWidth=null)
+  $main($minWidth, $maxWidth);
   body {
     nav {
-      max-width: unset;
-      min-width: unset;
       $layout.flex(hsc);
 
       h1 {
@@ -35,10 +33,11 @@ export style app
       }
     }
 
-    footer {
-      max-width: unset;
-      min-width: unset;
+    main {
+      $centering($minWidth, $maxWidth);
+    }
 
+    footer {
       #nav-logo {
         line-height: 1.1rem;
         font-size: 1.1rem;

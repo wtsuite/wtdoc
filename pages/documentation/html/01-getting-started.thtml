@@ -10,7 +10,7 @@ articlepage(0)
     h2 "Basic page example"
     p "Put the following code in a file named " code "example.thtml" < ":"
     cblock
-      cl ck "var" < " title = " cv '"web transpiler suite"'
+      cl ck "const" < " title = " cv '"web transpiler suite"'
       br
       cl cc "// !doctype is automatically added"
       cl cs "html"

@@ -1,4 +1,4 @@
-export var articles = [
+export const articles = [
   [abs("01-getting-started.thtml"), "Getting started"],
   [abs("02-tags.thtml"), "Tags"],
   [abs("03-variables.thtml"), "Variables"],

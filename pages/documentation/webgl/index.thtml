@@ -1,4 +1,4 @@
-export var articles = [
+export const articles = [
   [abs("01-dynamic-indexing.thtml"), "Dynamic indexing"],
   [abs("02-program-macro.thtml"), "WebGLProgram macro"],
   [abs("03-mandelbrot-example.thtml"), "Mandelbrot example"],

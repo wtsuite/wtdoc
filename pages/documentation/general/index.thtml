@@ -1,4 +1,4 @@
-export var articles = [
+export const articles = [
   [abs("01-overview-tools.thtml"), "Overview of tools"],
   [abs("02-package-management.thtml"), "Package management"],
   [abs("03-client-side-search.thtml"), "Client-side search"],

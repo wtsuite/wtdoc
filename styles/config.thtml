@@ -1,60 +1,62 @@
 /////////
 // colors
 /////////
-export var bgColor=#fff
-export var darkText=#494949
-export var lightText=#818181
-export var linkColor=#808080
-export var borderColor=#d7d8d6
+export const bgColor=#fff
+export const darkText=#494949
+export const lightText=#818181
+export const linkColor=#808080
+export const borderColor=#d7d8d6
 
-export var darkBlue=#0d70ca
-export var orange=#fa6900
+export const darkBlue=#0d70ca
+export const orange=#fa6900
 
 // solarized
-export var black=#f2f2f2
-export var grey=#a6a6a6
-export var white=#616161
-export var green=#5f8800
-export var brightGreen=#1fb500
-export var yellow=#cca300
-export var lightBlue=#00b1b1
-export var red=#e80000
+export const black=#f2f2f2
+export const grey=#a6a6a6
+export const white=#616161
+export const green=#5f8800
+export const brightGreen=#1fb500
+export const yellow=#cca300
+export const lightBlue=#00b1b1
+export const red=#e80000
 
-export var githubBlack=#151413
-export var selectColor=#e8e8e8
+export const githubBlack=#151413
+export const selectColor=#e8e8e8
 
 
 ////////
 // sizes
 ////////
-export var gutter = 1rem
-export var navHeight = 4rem
-export var mobileWidth = 700px
-export var mobileMedia = "@media screen and (max-width: " + str($mobileWidth) + ")"
-export var normalMedia = "@media only screen and (max-width: 1200px)"
+export const gutter = 1rem
+export const navHeight = 4rem
+export const mobileWidth = 700px
+export const mobileMedia = "@media screen and (max-width: " + str($mobileWidth) + ")"
+export const normalMedia = "@media only screen and (max-width: 1200px)"
 
-export var maxPageWidth = 1400px
+export const maxPageWidth = 1400px
 
-export style centering
+export style centering(minWidth=null, maxWidth=$maxPagewidth)
   {
-    max-width: $maxPageWidth;
+    min-width: $minWidth;
+    max-width: $maxWidth;
     padding-left: $gutter;
     padding-right: $gutter;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: $ifelse($maxWidth != null, auto, unset);
+    margin-right: $ifelse($maxWidth != null, auto, unset);
   }
 
 
 ////////
 // fonts
 ////////
-export var landingFont = "Roboto"
-export var monoFont = "monospace, mono"
-export var mathFont = "math, FreeSerif"
+export const landingFont = "Roboto"
+export const monoFont = "monospace, mono"
+export const mathFont = "math, FreeSerif"
+export const sansFont = "sans"
 
 
 ///////
 // misc
 ///////
-export var border=str([1px, solid, $borderColor], " ")
-export var borderRadius=0.3rem
+export const border=str([1px, solid, $borderColor], " ")
+export const borderRadius=0.3rem
