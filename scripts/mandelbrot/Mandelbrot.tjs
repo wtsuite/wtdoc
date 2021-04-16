@@ -11,7 +11,7 @@ export class Mandelbrot {
   _ctx WebGLRenderingContext;
   _program WebGLProgram;
   _scaleX Number;
-  _offset Array<Number>;
+  _offset []Number;
   _time Number; // in ms
   _paused Boolean;
 
@@ -185,7 +185,7 @@ export class Mandelbrot {
     let animStart Number = null;
     let prevTS Number = null;
 
-    var fn function<Number, void> = (ts Number) => {
+    var fn (Number) = (ts Number) => {
       if (animStart == null) {
         animStart = ts;
       } else {

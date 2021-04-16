@@ -15,6 +15,8 @@ function findPages() {
 
 const pages = findPages()
 
+const content = exists(CMS_DATA) ? dump(read($CMS_DATA, "json")) : {}
+
 export const main = {
   pages: $pages,
   files: {

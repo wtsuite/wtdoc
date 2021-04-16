@@ -1,0 +1,29 @@
+import * from "config.thtml"
+
+export style appButton(color, height=2rem, width=100%) 
+  {
+    background-color: $color;
+    :hover {
+      cursor: pointer;
+      background-color: $lighten($color, 10%);
+    }
+    color: white;
+    box-sizing: border-box;
+    border-radius: $borderRadius;
+    height: $height;
+    line-height: $height;
+    width: $width;
+    display: block;
+    text-align: center;
+    border: none;
+    [disabled] {
+      background-color: white;
+      border: $grey solid 1px;
+      color: $grey;
+      :hover {
+        cursor: auto;
+        background-color: white;
+        border: $grey solid 1px;
+      }
+    }
+  }

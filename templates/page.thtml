@@ -49,5 +49,5 @@ export template page(title=null, description=null, mobile=true) extends html sup
       div
         p $str($year())
 
-      div 
+      div
         p "by " a(href="https://computeportal.com") "Compute Portal"

@@ -1,17 +1,17 @@
-import * as search from "std/search";
+import {SearchIndex, sanitizeQuery, searchPages, highlightQuery} from "std/search";
 
 
 import {baseURL} from "../pages/documentation/general/03-client-side-search.thtml" lang template;
 
 
 class Page {
-  _searchIndex search.SearchIndex;
+  _searchIndex SearchIndex;
   _input HTMLInputElement;
   _message HTMLElement;
   _results HTMLElement;
 
   constructor() {
-    this._searchIndex = new search.SearchIndex("/search-index-mdn-javascript.json");
+    this._searchIndex = new SearchIndex("/search-index-mdn-javascript.json");
 
     this._input = cast(document.getElementById("example-search-input"), HTMLInputElement);
 
@@ -33,9 +33,9 @@ class Page {
       return;
     }
 
-    keys := search.sanitizeQuery(query);
+    keys := sanitizeQuery(query);
 
-    pages := await search.searchPages(this._searchIndex, keys, false);
+    pages := await searchPages(this._searchIndex, keys, false);
 
     if (pages.length == 0) {
       this._message.innerHTML = "";
@@ -49,7 +49,7 @@ class Page {
     for (let i of pages) {
       p := this._searchIndex.page(i);
 
-      title := search.highlightQuery(p.title, keys);
+      title := highlightQuery(p.title, keys);
 
       titles.push(title);
       urls.push(baseURL + p.url);

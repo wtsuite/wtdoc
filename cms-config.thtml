@@ -1,0 +1,104 @@
+// how should this file be structured?
+// it is essentially the dual of the resulting content.json file
+// at the root sit the "table-names" (equivalent to collcetions in strapi)
+// we need to support much more than the basic json type though
+// links can only be made to top-level entries
+// we essentially need the same as the <> syntax in typed languages
+
+export const main = {
+  settings: {
+    media: {
+      // multimedia cdn info comes here
+    },
+  },
+  collections: [
+    {
+      name: "Posts",
+      fields: [
+        {name: "Content",  type: text},
+        {name: "Date",     type: date, required: true},
+        {name: "Products", type: link, to: "Products"}, // TODO: multilink
+      ]
+    },
+    {
+      name: "Products",
+      fields: [
+        {
+          name: "Name",
+          type: string,
+        },
+        {
+          name: "Price",
+          type: number,
+        },
+        {
+          name: "Rating",
+          type: number,
+        },
+        {
+          name: "Images",
+          type: list, // will become a hyperlink in the final content.json file
+          fields: [
+            {name: "Image", type: image},
+            {name: "BGColor", type: color},
+          ]
+        }
+      ],
+    },
+    {
+      name: "Reviews",
+      fields: [
+        {
+          name: "Author",
+          type: string,
+        },
+        {
+          name: "Comment",
+          type: string,
+        },
+        {
+          name: "Rating",
+          type: number,
+        },
+        {
+          name: "Product",
+          type: link,
+          to: "Products",
+          required: true,
+        }
+      ]
+    }
+  ],
+  singles: [
+    {
+      name: "Footer",
+      fields: [
+        {
+          name: "Company",
+          type: string,
+        },
+        {
+          name: "Opening hours", 
+          type: list,
+          min: 1,
+          fields: [
+            {name: "Day", type: string},
+            {name: "Start1", type: string, default: "10:00", required: true},
+            {name: "End1", type: string, default: "18:00", required: true},
+            {name: "Start2", type: string},
+            {name: "End2", type: string},
+          ]
+        }
+      ]
+    },
+    {
+      name: "About us",
+      fields: [
+        {
+          name: "Content",
+          type: text,
+        }
+      ],
+    }
+  ],
+}
