@@ -15,6 +15,7 @@ function findPages() {
 
 const pages = findPages()
 
+// TODO: dont test CMS_DATA here, but use an actual website for that
 const content = exists(CMS_DATA) ? dump(read($CMS_DATA, "json")) : {}
 
 export const main = {

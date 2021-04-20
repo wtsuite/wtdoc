@@ -12,9 +12,9 @@ articlepage(0)
     br
     p "Usage:"
     cblock
-      cl "> wt-site site.json . --auto-link"
+      cl "> wt-site -i site-config.thtml -o ./www/"
     br
-    p "An example config file can be found " a(href="site.json") "here" < "."
+    p "An example config file can be found " a(href="https://github.com/wtsuite/wtdoc/tree/main/site-config.thtml") "here" < "."
 
   section 
     h2 "wt-search-index"
@@ -22,7 +22,9 @@ articlepage(0)
     br
     p "Usage:"
     cblock
-      cl "> wt-search-index site.json search-index.json --auto-link"
+      cl "> wt-search-index ./www/ -c search-config.json -o search-index.json"
+    br
+    p "More information can be found " a(href=url("./03-client-side-search.thtml")) "here" < "."
 
   section 
     h2 "wt-template"
@@ -30,7 +32,7 @@ articlepage(0)
     br
     p "Usage:"
     cblock
-      cl "> wt-template index.wtt -o index.html --auto-link"
+      cl "> wt-template index.thtml -o index.html"
     br
     p "Once you start creating websites with many pages, then consider using the " code "wt-site" < " tool instead."
 
@@ -44,7 +46,7 @@ articlepage(0)
     br
     p "Usage:"
     cblock
-      cl "> wt-script main.wts -o main.js --target nodejs --executable"
+      cl "> wt-script main.tjs -o main.js --target nodejs --executable"
 
   section
     h2 "wt-script-grapher"
@@ -68,7 +70,7 @@ articlepage(0)
     br
     p "Usage:"
     cblock
-      cl "> wt-glsl main.glsl -o main.shader --target fragment"
+      cl "> wt-glsl main.tglsl -o main.glsl --target fragment"
 
   section
     h2 "wt-glsl-syntax-tree"
@@ -79,4 +81,4 @@ articlepage(0)
     p  code "wt-style" < " transpiles a template script file into a css file. The input file must have an exported style variable called " code "main" < "."
     p "Usage:"
     cblock
-      cl "> wt-style ./style/main.wtt -o ./style.css"
+      cl "> wt-style ./style/main.thtml -o ./style.css"

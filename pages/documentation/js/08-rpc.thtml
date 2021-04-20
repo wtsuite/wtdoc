@@ -30,7 +30,7 @@ articlepage(7)
 
     cblock
       cl "client := " ck "new" < " RPCClient(Credentials, " ck "function" < "(s " ct "String" < ") " ct "Promise" < "&lt;" ct "String" < "&gt; {"
-      cl(1) ck "return new" < " " ct "Promise" < "(" ck "function" < "(resolve " ck "function" < "&lt;" ct "String" < ", " ck "void" < "&gt;, reject " ck "function" < "&lt;" ct "Error" < ", " ck "void" < "&gt;) {"
+      cl(1) ck "return new" < " " ct "Promise" < "(" ck "function" < "(resolve (" ct "String" < "), reject (" ct "Error" < ")) {"
       cl(2) "req := " ck "new" < " XMLHttpRequest();"
       cl(2) "req.open(" cv "'POST'" < ", " cv "'/api/credentials'" < ");"
       cl(2) "req.setRequestHeader(" cv "'Content-Type'" < ", " cv "'application/json'" < ");"

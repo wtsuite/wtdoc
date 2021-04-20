@@ -1,7 +1,7 @@
 import * from "templates"
 
 
-const latestVersion = "0.5.2"
+const latestVersion = "0.6.0"
 
 
 docpage("Download")
@@ -47,7 +47,7 @@ docpage("Download")
     p "We recommend you use a linux based environment for this."
 
     br
-    p "The source code can be download from our " a(href="https://github.com/computeportal/wtsuite") "github repository" < "."
+    p "The source code can be download from our " a(href="https://github.com/wtsuite/wtsuite") "github repository" < "."
     br
     p "Running " code "make" < " in the root directory should do the trick. The resulting files are placed in the " code "build" < " directory."
     br

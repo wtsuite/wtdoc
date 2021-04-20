@@ -2,8 +2,11 @@ import * from "templates"
 
 
 docpage("Services")
-  dt a(href="ssg.wtsuite.com") "SSGaaS"
+  dt a(href="https://ssg.wtsuite.com") "SSGaaS"
   dd "Static site generation as a service. Use wtsuite in the cloud to build static websites as part of your CD flow. Rebuilds are triggered by webhooks from your own repositories, as well as webhooks from upstream dependencies."
 
-  dt "Analytics"
-  dd "Privacy sensitive analytics, integrated into your SSGaaS websites."
+  dt "Headless CMS"
+  dd "Easily configurable CMS editor. The created content can be loaded as an object during the site build process in order to generate the pages. Integrated into the SSG service."
+
+  dt "Statistics"
+  dd "Privacy sensitive visitor statistics, integrated into your SSGaaS websites."

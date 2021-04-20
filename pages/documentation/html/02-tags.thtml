@@ -42,4 +42,5 @@ articlepage(1)
       cl(1) cs 'p' < " " cv '"normal text "' < " " cs "b" < " " cv '"bold text"' < " " ck "&lt;" < " " cv '" normal text"'
     p "Note how the spaces before and after the " code "b" < " tag are preserved."
     br
-    p "Single quotes " code "'" < ", double quotes " code '"' < ", and backticks " code "`" < " can be used to specify literal strings. Each type of quotes escapes the other types of quotes."
+    p "Single quotes " code "'" < ", double quotes " code '"' < ", and backticks " code "`" < " can be used to specify literal strings. Each type of quotes escapes the other types of quotes. Backslash escaping has not yet been implemented."
+    

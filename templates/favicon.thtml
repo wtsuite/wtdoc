@@ -1,1 +1,2 @@
-export template favicon extends link super(rel="icon", href="/favicon.png", type="image/png", sizes="32x32")
+// TODO: relative path to favicon, so it can be hosted on different locations in different ways
+export template favicon extends link super(rel="icon", href=url("../art/favicon.png"), type="image/png", sizes="32x32")

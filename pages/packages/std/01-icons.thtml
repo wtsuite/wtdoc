@@ -61,13 +61,13 @@ articlepage(0)
     h2 "Custom icons"
     p "You can include your own icons by specifying an extension file as a parameter during the module import:"
     cblock
-      cl ck 'import' < ' *(' cm 'path' < '(' cv '"./custom-icons.wtt"' < ')) ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
+      cl ck 'import' < ' *(' cm 'path' < '(' cv '"./custom-icons.thtml"' < ')) ' ck 'as' < ' icons ' ck 'from' < ' ' cv '"std/icons"'
       cl 
       cl cs 'icons.factory' < '(my-custom-icon, ' cv '3rem' < ')'
     br
     p "An entry in the file with custom icons has the following format:"
     cblock
-      cl cc "// ./custom-icons.wtt"
+      cl cc "// ./custom-icons.thtml"
       cl ck 'import' < " {mdi-icon} " ck "from" < " " cv '"std/icons"'
       cl
       cl ck "export template" < " my-custom-icon(scale) " ck "extends" < " mdi-icon " ck "super" < "(scale=" cm "$scale" < ")"

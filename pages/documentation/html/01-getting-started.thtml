@@ -17,7 +17,7 @@ articlepage(0)
       cl(1) cs "head"
       cl(2) cs "meta" < "(charset=utf-8)"
       cl(2) cs "title"
-      cl(3) ck "print" < " " cm "$title"
+      cl(3) cm "$title"
       cl(1) cs "body"
       cl(2) cs 'h1' < ' ' cv '"Welcome"'
 

@@ -97,6 +97,24 @@ articlepage(1)
     br
     p "Remember to " a(href="#tagging-in-git") "tag the commits" < " of the versions of your package that you want to be available for others."
 
+    h3 "Root modules"
+    p "The empty string key in the " code "templateModules" < ", " code "scriptModules" < " and " code "shaderModules" < " sections defines the respective root modules, which can be accessed by using only the package name."
+    br
+    p "In this case the " code "package.json" < " file of the exporting package would look like this:"
+    cblock
+      cl '{'
+      cl(1) '...'
+      cl(1) '"templateModules": {'
+      cl(2) '"": "./templates/index.thtml"'
+      cl(1) '},'
+      cl(1) '...'
+      cl '}'
+
+    br 
+    p "An import statement in the importing package now looks like this:"
+    cblock
+      cl ck 'import' < ' * ' ck 'as' < ' module ' ck 'from' < ' ' cv '"awesomepkg"'
+
   section
     h2(id="wt-pkg-sync") "wt-pkg-sync"
     p "The " em "wt-pkg-sync" < " command downloads any dependencies (and dependencies of dependencies etc.), and checks if the " semver < " constraints are met. It can be used without arguments:"

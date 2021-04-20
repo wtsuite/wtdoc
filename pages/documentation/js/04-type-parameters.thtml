@@ -10,19 +10,23 @@ articlepage(3)
     h2 "Array"
     p "An array takes a single optional type parameter, which can itself be an array:"
     cblock
-      cl ck 'var' < ' x ' ct 'Array' < '<' ct 'Array' < '<' ct 'Number' < '>> = [[' cv '0.0' < ', ' cv '1.0' < '], [' cv '2.0' < ', ' cv '3.0' < ']]'
+      cl ck 'var' < ' x ' ct 'Array' < '&lt;' ct 'Array' < '&lt;' ct 'Number' < '&gt;&gt; = [[' cv '0.0' < ', ' cv '1.0' < '], [' cv '2.0' < ', ' cv '3.0' < ']]'
       cl
       cl 'x[' cv '0' < '][' cv '0' < '] = ' cv '10' < '; ' cc '// ok'
       cl 'x[' cv '0' < '] = ' cv '10' < '; ' cc '// error'
     br
     p "An array without a type parameter can contain any type (i.e. falls back to " code "Array&lt;any&gt;" < ")."
 
+    h3 "Short hand notation"
+      cblock
+        cl ck 'var' < ' x [][]' ct 'Number' < ' = [[' cv '0.0' < ', ' cv '1.0' < '], [' cv '2.0' < ', ' cv '3.0' < ']]'
+
   section
     h2 "Set"
     p "Similar to an array, a set takes a single optional type parameter (which can itself be a set):"
 
     cblock
-      cl ck 'var' < ' s ' ct 'Set' < '<' ct 'Number' < '> = ' ck 'new' < ' ' ct 'Set' < '();'
+      cl ck 'var' < ' s ' ct 'Set' < '&lt;' ct 'Number' < '&gt; = ' ck 'new' < ' ' ct 'Set' < '();'
       cl 
       cl 'x.add(' cv '10' < '); ' cc '// ok'
       cl 'x.add(' cv 'false' < '); ' cc '// error'
@@ -31,7 +35,7 @@ articlepage(3)
     h2 "Map"
     p "A map takes two type parameters:"
     cblock
-      cl ck 'var' < ' m ' ct 'Map' < '<' ct 'Int' < ', ' ct 'String' < '> = ' ck 'new' < ' ' ct 'Map' < '();'
+      cl ck 'var' < ' m ' ct 'Map' < '&lt;' ct 'Int' < ', ' ct 'String' < '&gt; = ' ck 'new' < ' ' ct 'Map' < '();'
       cl 
       cl 'm.set(' cv '0' < ', ' cv '"first entry"' < '); ' cc '// ok'
       cl 'm.set(' cv '"first entry"' < ', ' cv '0' < '); ' cc '// error'
@@ -42,7 +46,7 @@ articlepage(3)
     br
     p "Dict-like type parameters are used to specify the types of these values:"
     cblock
-      cl ck 'var' < ' obj ' ct 'Object' < '&lt;key1: ' ct 'String' < ', key2: ' ct 'Array' < '&lt;' ct 'String' < '>> = {'
+      cl ck 'var' < ' obj {key1: ' ct 'String' < ', key2: ' ct 'Array' < '&lt;' ct 'String' < '&gt;} = {'
       cl(1) 'key1: ' cv '"value"' < ','
       cl(1) 'key2: [' cv '"a"' < ', ' cv '"b"' < ', ' cv '"c"' < '],'
       cl '}'
@@ -57,15 +61,16 @@ articlepage(3)
 
   section
     h2 "Tuple"
-    p "Tuples are fixed length arrays. Each tuple entry can have a different type. Tuple type parameters are not optional, and at least 2 must be specified."
+    p "Tuples are fixed length arrays. They are the resulting types of literal arrays."
     cblock
-      cl ck "var" < ' pair ' ct 'Tuple' < '&lt;' ct 'String' < ', ' ct 'Object' < ', ' ct 'Int' < '&gt; = ' ck 'new' < ' ' ct 'Tuple' < '(' cv '"name"' < ', {}, ' cv '0' < ');'
+      cl ck "var" < ' triple [' ct 'String' < ', ' ct 'Object' < ', ' ct 'Int' < '] = [' cv '"name"' < ', {}, ' cv '0' < '];'
     br
-    p "When looping over a " code "Map&lt;KeyType, ValueType&gt;" < " using " code "for (let x of ...)" < ", the type of " code "x" < " is " code "Tuple&lt;KeyType,&nbsp;ValueType&gt;" < "."
-    
+    p "When looping over a " code "Map&lt;KeyType, ValueType&gt;" < " using " code "for (let x of ...)" < ", the type of " code "x" < " is " code "[KeyType,&nbsp;ValueType]" < "."
+    br
+    p "Any array-like manipulation of a tuple degrades it into its equivalent Array type though."
   section
     h2 "Promise&lt;ResolveType&gt;"
-    p "ResolveType can be void."
+    p "ResolveType can be " code "void" < "."
 
   section
     h2 "Event&lt;TargetType&gt;"
@@ -77,6 +82,16 @@ articlepage(3)
   section 
     h2 "function&lt;ArgType1, ..., ReturnType&gt;"
     p "ReturnType can be " code "void" < "."
+
+    h3 "Short hand notation"
+    p "An arrow function like syntax is used for more concise function type specification:"
+    cblock
+      cl ck "let" < ' formatNumber (' ct 'Number' < ') => ' ct 'String' < ';'
+
+    br
+    p "If the return value is void the arrow and rhs can be removed, leaving only the parenthesis:"
+    cblock
+      cl ck "let" < ' printNumber (' ct 'Number' < ');'
 
   section
     h2 "class&lt;ArgType1, ..., InstanceType&gt;"
