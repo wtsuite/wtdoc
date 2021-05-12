@@ -1,5 +1,5 @@
 import * as icons from "std/icons"
-import {hamburger-style} from "std/ux"
+import {hamburgerStyle} from "std/ux"
 import * from "./config.thtml"
 
 
@@ -90,7 +90,7 @@ export style nav(minWidth=null, maxWidth=null)
     }
 
     #hamburger-menu-button {
-      hamburger-style($mobileMedia, 3rem, $grey, $darkText);
+      hamburgerStyle($mobileMedia, 3rem, $grey, $darkText);
       margin-top: $str(0.5*($navHeight - 3rem));
       margin-bottom: $str(0.5*($navHeight - 3rem));
     }
